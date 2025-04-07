@@ -300,7 +300,7 @@ export default function FoodFinder() {
           </div>
           
           <p className="text-gray-500 italic mt-4">
-            {rotating ? '命運之輪正在轉動...' : '點擊中央按鈕開始'}
+            {rotating ? 'cow我超2' : 'cow我超2'}
           </p>
         </div>
       </section>
