@@ -12,6 +12,7 @@
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
     "formidable": "^3.5.2",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
