@@ -40,7 +40,7 @@ export default function Home() {
               <Link href="/calendar" className="btn btn-white py-3 px-6 text-lg rounded-full hover:scale-105 transition-transform shadow-lg">
                 查看活動
               </Link>
-              <Link href="/about" className="btn btn-outline-white py-3 px-6 text-lg rounded-full hover:scale-105 transition-transform shadow-lg">
+              <Link href="/links" className="btn btn-white py-3 px-6 text-lg rounded-full hover:scale-105 transition-transform shadow-lg">
                 了解更多
               </Link>
             </div>
