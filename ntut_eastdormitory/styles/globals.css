@@ -34,7 +34,7 @@ main {
 
 /* 卡片樣式 */
 .card {
-  @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-lg;
+  @apply p-4 transition-all duration-300 hover:shadow-lg;
 }
 
 /* 按鈕樣式 */
@@ -51,7 +51,7 @@ main {
 }
 
 .btn-white {
-  @apply bg-white text-blue-600 hover:bg-gray-100 shadow-sm hover:shadow-md;
+  @apply text-blue-600 hover:bg-gray-100 shadow-sm hover:shadow-md;
 }
 
 .btn-outline-white {
@@ -127,7 +127,7 @@ main {
 
 /* 行事曆樣式 */
 .calendar-container {
-  @apply bg-white rounded-xl shadow-lg p-4 md:p-6;
+  @apply shadow-lg p-4 md:p-6;
 }
 
 .calendar-header {
@@ -163,7 +163,7 @@ main {
 }
 
 .event-item {
-  @apply flex items-start p-4 rounded-lg bg-white shadow hover:shadow-md transition-shadow border border-gray-100;
+  @apply flex items-start p-4 shadow hover:shadow-md transition-shadow border border-gray-100;
 }
 
 .event-date {
@@ -204,12 +204,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-container {
-  @apply py-16 bg-white rounded-xl shadow-md my-12;
+  @apply py-16 bg-white rounded-xl my-12;
 }
 
 /* 新增全局區塊樣式 */
 .content-section {
-  @apply bg-white rounded-xl shadow-md p-6 md:p-8 my-8;
+  @apply bg-white rounded-xl p-4 md:p-8 my-8;
 }
 
 /* 頁面容器統一樣式 */
