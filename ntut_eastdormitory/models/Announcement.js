@@ -17,6 +17,10 @@ const announcementSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  imageUrl: {
+    type: String,
+    default: null,
+  }
 });
 
 export default mongoose.models.Announcement || mongoose.model('Announcement', announcementSchema); 

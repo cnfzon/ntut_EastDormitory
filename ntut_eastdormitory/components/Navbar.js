@@ -7,6 +7,7 @@ const navItems = [
   { name: "關於我們", path: "/about" },
   { name: "報修系統", path: "/repair" },
   { name: "幹部介紹", path: "/committee" },
+  { name: "行事曆", path: "/calendar" },
   { name: "網站問題回報", path: "/feedback" },
 ];
 
@@ -21,6 +22,8 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
+    // 初始檢查
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -31,12 +34,12 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white shadow-md"
-          : "bg-transparent"
+          : "bg-black bg-opacity-20"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-xl font-bold text-blue-600">
+          <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'}`}>
             東宿舍
           </Link>
 
@@ -48,7 +51,7 @@ export default function Navbar() {
                 href={item.path}
                 className={`text-sm font-medium transition-colors duration-200 ${
                   router.pathname === item.path
-                    ? "text-blue-600"
+                    ? isScrolled ? "text-blue-600" : "text-blue-300"
                     : isScrolled
                     ? "text-gray-600 hover:text-blue-600"
                     : "text-white hover:text-blue-200"
@@ -99,7 +102,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-gray-600"
+            className={`md:hidden ${isScrolled ? 'text-gray-600' : 'text-white'}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg
@@ -132,10 +135,10 @@ export default function Navbar() {
           className={`md:hidden fixed w-full left-0 transition-all duration-300 ${
             isMenuOpen
               ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-full"
+              : "opacity-0 -translate-y-full pointer-events-none"
           }`}
         >
-          <div className="bg-white shadow-lg rounded-lg p-4 mt-2">
+          <div className="bg-white shadow-lg rounded-lg p-4 mt-2 mx-4">
             <div className="flex flex-col space-y-4">
               {navItems.map((item) => (
                 <Link

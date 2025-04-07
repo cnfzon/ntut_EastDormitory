@@ -1,19 +1,13 @@
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="min-h-screen">
       <Navbar />
       <main>
-        {/* Announcement Section */}
-        <section className="py-8 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <Announcement />
-          </div>
-        </section>
-
         {/* Hero Section */}
         <section className="relative h-[70vh] flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800 text-white overflow-hidden">
           <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -42,13 +36,20 @@ export default function Home() {
               溫馨舒適的住宿環境，讓您有家的感覺
             </p>
             <div className="flex justify-center space-x-4">
-              <a href="/events" className="btn btn-white">
+              <Link href="/calendar" className="btn btn-white">
                 查看活動
-              </a>
-              <a href="/about" className="btn btn-outline-white">
+              </Link>
+              <Link href="/about" className="btn btn-outline-white">
                 了解更多
-              </a>
+              </Link>
             </div>
+          </div>
+        </section>
+
+        {/* Announcement Section */}
+        <section className="py-8 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <Announcement />
           </div>
         </section>
 
@@ -93,7 +94,7 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">宿舍環境</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="relative h-64 rounded-lg overflow-hidden group">
+              <div className="relative h-64 rounded-lg overflow-hidden group shadow-md">
                 <Image
                   src="/images/gallery/lobby.jpg"
                   alt="宿舍大廳"
@@ -105,7 +106,7 @@ export default function Home() {
                   <span className="text-white text-xl font-semibold">宿舍大廳</span>
                 </div>
               </div>
-              <div className="relative h-64 rounded-lg overflow-hidden group">
+              <div className="relative h-64 rounded-lg overflow-hidden group shadow-md">
                 <Image
                   src="/images/gallery/room.jpg"
                   alt="宿舍房間"
@@ -117,7 +118,7 @@ export default function Home() {
                   <span className="text-white text-xl font-semibold">宿舍房間</span>
                 </div>
               </div>
-              <div className="relative h-64 rounded-lg overflow-hidden group">
+              <div className="relative h-64 rounded-lg overflow-hidden group shadow-md">
                 <Image
                   src="/images/gallery/common.jpg"
                   alt="公共空間"
