@@ -8,6 +8,7 @@ const navItems = [
   { name: "報修系統", path: "/repair" },
   { name: "幹部介紹", path: "/committee" },
   { name: "行事曆", path: "/calendar" },
+  { name: "欸等等要吃什麼", path: "/food-finder" },
   { name: "網站問題回報", path: "/feedback" },
 ];
 
