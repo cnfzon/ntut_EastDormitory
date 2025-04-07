@@ -20,7 +20,43 @@ export default function FoodFinder() {
     { name: "爭鮮迴轉壽司", type: "日式", image: "/images/restaurants/sushi.jpg" },
     { name: "subway", type: "三明治", image: "/images/restaurants/sandwich.jpg" },
     { name: "拉亞漢堡", type: "早餐", image: "/images/restaurants/breakfast.jpg" },
-    { name: "7-11超商", type: "便利商店", image: "/images/restaurants/convenience.jpg" }
+    { name: "7-11超商", type: "便利商店", image: "/images/restaurants/convenience.jpg" },
+    // 光華商場美食選項
+    { name: "喬喜蛋炒飯專賣店", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "阿姊的店碳烤三明治", type: "三明治", image: "/images/restaurants/sandwich.jpg" },
+    { name: "垃圾麵（喇舌麵）", type: "麵食", image: "/images/restaurants/noodles.jpg" },
+    { name: "就是愛煎餅果子·咔滋飯糰", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "巧之味手工水餃", type: "中式", image: "/images/restaurants/dumpling.jpg" },
+    { name: "I'M PASTA", type: "義式", image: "/images/restaurants/pasta.jpg" },
+    { name: "佐藤精肉店", type: "日式", image: "/images/restaurants/japanese.jpg" },
+    { name: "銀記手擀刀切牛肉麵", type: "麵食", image: "/images/restaurants/noodles.jpg" },
+    { name: "光華蔥抓餅夾香腸", type: "小吃", image: "/images/restaurants/taiwanese.jpg" },
+    { name: "光華紅豆餅", type: "甜點", image: "/images/restaurants/dessert.jpg" },
+    { name: "光華豬血糕", type: "小吃", image: "/images/restaurants/taiwanese.jpg" },
+    { name: "光華特大章魚腳", type: "小吃", image: "/images/restaurants/seafood.jpg" },
+    { name: "TakeOut Burger&Cafe", type: "美式", image: "/images/restaurants/burger.jpg" },
+    { name: "小尾巴", type: "甜點", image: "/images/restaurants/dessert.jpg" },
+    { name: "Paper St. Coffee 紙街咖啡", type: "咖啡", image: "/images/restaurants/coffee.jpg" },
+    { name: "麵屋雞金", type: "日式", image: "/images/restaurants/ramen.jpg" },
+    { name: "丸舢拉麵", type: "日式", image: "/images/restaurants/ramen.jpg" },
+    { name: "Broccoli beer韓國餐酒食堂", type: "韓式", image: "/images/restaurants/korean.jpg" },
+    { name: "湯神頂級和牛牛肉麵", type: "麵食", image: "/images/restaurants/beef_noodle.jpg" },
+    { name: "DOMANI義式餐廳", type: "義式", image: "/images/restaurants/italian.jpg" },
+    { name: "PEPPINO培皮諾小館", type: "義式", image: "/images/restaurants/italian.jpg" },
+    { name: "黄河蜀魚館", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "濟南牛肉麵", type: "麵食", image: "/images/restaurants/beef_noodle.jpg" },
+    { name: "本粥", type: "中式", image: "/images/restaurants/congee.jpg" },
+    { name: "溫咖哩", type: "咖哩", image: "/images/restaurants/curry.jpg" },
+    { name: "Power Beef", type: "牛肉", image: "/images/restaurants/beef.jpg" },
+    { name: "興波咖啡旗艦店", type: "咖啡", image: "/images/restaurants/coffee.jpg" },
+    { name: "小巷小象", type: "泰式", image: "/images/restaurants/thai.jpg" },
+    { name: "老德記手工拉麵店", type: "麵食", image: "/images/restaurants/noodles.jpg" },
+    { name: "阿春姨米粉湯", type: "湯品", image: "/images/restaurants/soup.jpg" },
+    { name: "特有種商行", type: "咖啡", image: "/images/restaurants/coffee.jpg" },
+    { name: "仨弄砂鍋煲", type: "中式", image: "/images/restaurants/hotpot.jpg" },
+    { name: "山海樓", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "羊成小館", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "許雪莉泰國時尚餐廳", type: "泰式", image: "/images/restaurants/thai.jpg" }
   ];
 
   const [rotating, setRotating] = useState(false);
@@ -89,7 +125,7 @@ export default function FoodFinder() {
           <p className="text-xl text-gray-700 mb-6">
             不知道該吃什麼？只要按下按鈕，讓美食轉盤幫你做決定！
             <br />
-            <span className="text-sm text-gray-500">包含北科東校區宿舍方圓700公尺內的美食選擇</span>
+            <span className="text-sm text-gray-500">包含北科東校區宿舍方圓700公尺內及光華商場的美食選擇</span>
           </p>
           
           <div className="relative mb-10 mx-auto" style={{ width: 320, height: 320 }}>
