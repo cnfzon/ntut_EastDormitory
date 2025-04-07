@@ -23,7 +23,7 @@ body {
 
 /* 添加頂部間距，防止導航欄覆蓋內容 */
 main {
-  padding-top: 5rem;
+  padding-top: 4rem;
 }
 
 .container {
@@ -34,7 +34,7 @@ main {
 
 /* 卡片樣式 */
 .card {
-  @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl;
+  @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-lg;
 }
 
 /* 按鈕樣式 */
@@ -43,7 +43,7 @@ main {
 }
 
 .btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg;
+  @apply bg-blue-600 text-white hover:bg-blue-700 shadow-sm hover:shadow-md;
 }
 
 .btn-secondary {
@@ -51,7 +51,7 @@ main {
 }
 
 .btn-white {
-  @apply bg-white text-blue-600 hover:bg-gray-100 shadow-md hover:shadow-lg;
+  @apply bg-white text-blue-600 hover:bg-gray-100 shadow-sm hover:shadow-md;
 }
 
 .btn-outline-white {

@@ -18,7 +18,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -34,7 +34,7 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white shadow-md"
-          : "bg-black bg-opacity-20"
+          : "bg-gray-900 bg-opacity-30 backdrop-blur-sm"
       }`}
     >
       <div className="container mx-auto px-4 max-w-7xl">
@@ -49,7 +49,7 @@ export default function Navbar() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 mx-1 hover:scale-105 ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:scale-105 ${
                   router.pathname === item.path
                     ? isScrolled 
                       ? "bg-blue-100 text-blue-700 shadow-sm" 
