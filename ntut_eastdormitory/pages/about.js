@@ -3,15 +3,16 @@ import Image from "next/image";
 
 export default function About() {
   const facilities = [
-    { name: "宿舍大樓", icon: "🏢", description: "現代化住宿大樓，提供舒適安全的生活環境" },
-    { name: "管理室", icon: "🔑", description: "24小時管理服務，維護宿舍安全和秩序" },
-    { name: "寢室", icon: "🛏️", description: "舒適整潔的寢室空間，備有基本家具設備" },
-    { name: "運動空間", icon: "⚽", description: "提供住宿生運動休閒的開放空間" },
+    { name: "宿舍大樓", icon: "🏢", description: "一舍(女宿)和二舍(男宿)兩棟現代化住宿大樓，提供舒適安全的生活環境" },
+    { name: "管理室", icon: "🔑", description: "位於一樓，24小時管理服務，維護宿舍安全和秩序" },
+    { name: "寢室", icon: "🛏️", description: "舒適整潔的寢室空間，配有基本家具、網路及空調設備" },
+    { name: "運動空間", icon: "⚽", description: "宿舍外設有籃球場、網球場、排球場、操場、足球場等運動設施" },
     { name: "交誼廳", icon: "🎮", description: "供學生交流、休憩與舉辦活動的公共空間" },
     { name: "浴廁", icon: "🚿", description: "乾淨的衛浴設施，定期維護與清潔" },
     { name: "公共電話", icon: "☎️", description: "方便住宿生與外界聯繫的通訊設備" },
     { name: "公佈欄", icon: "📋", description: "發布宿舍公告與重要資訊的平台" },
-    { name: "洗衣機及烘衣機", icon: "👕", description: "自助式洗衣與烘乾設備，方便學生處理日常衣物" }
+    { name: "洗衣機及烘衣機", icon: "👕", description: "自助式洗衣與烘乾設備，方便學生處理日常衣物" },
+    { name: "桌球室和撞球室", icon: "🏓", description: "室內休閒活動空間，讓學生在課餘時間放鬆身心" }
   ];
 
   return (
@@ -79,6 +80,25 @@ export default function About() {
       <section className="content-section bg-gray-50 py-12 rounded-xl">
         <div className="max-w-5xl mx-auto">
           <h2 className="section-title">宿舍設施</h2>
+          
+          <div className="mb-8 p-6 bg-white rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold mb-4 text-blue-700">寢室介紹</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-medium text-lg mb-2 text-blue-600">一舍（女生宿舍）</h4>
+                <p className="text-gray-700 mb-4 leading-relaxed">
+                  一舍為女生宿舍，環境整潔舒適，每個寢室配備基本家具、網路及空調設備。寢室內設計合理，提供女同學們安全、私密的住宿空間。
+                </p>
+              </div>
+              <div>
+                <h4 className="font-medium text-lg mb-2 text-blue-600">二舍（男生宿舍）</h4>
+                <p className="text-gray-700 mb-4 leading-relaxed">
+                  二舍為男生宿舍，同樣提供舒適的住宿環境，配有完善的基礎設施。宿舍管理嚴格，確保所有住宿生有良好的生活與學習環境。
+                </p>
+              </div>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {facilities.map((facility, index) => (
               <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
