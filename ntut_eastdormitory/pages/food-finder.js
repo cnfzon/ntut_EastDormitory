@@ -251,19 +251,27 @@ export default function FoodFinder() {
             </div>
           )}
           
-          <div className="relative mb-10 mx-auto" style={{ width: 320, height: 320 }}>
+          <div className="relative mb-10 mx-auto" style={{ width: 420, height: 420 }}>
             {/* 轉盤中心指針 */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-4 z-20">
-              <div className="w-0 h-0 border-l-[15px] border-r-[15px] border-b-[30px] border-l-transparent border-r-transparent border-b-red-600"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-8 z-20">
+              <div className="w-10 h-16 flex flex-col items-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-b from-red-500 to-red-700 flex items-center justify-center shadow-lg border-2 border-white">
+                  <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full bg-red-600"></div>
+                  </div>
+                </div>
+                <div className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[30px] border-l-transparent border-r-transparent border-b-red-600 -mt-3"></div>
+              </div>
             </div>
             
             {/* 轉盤 */}
             <div
               ref={wheelRef}
-              className="relative w-full h-full rounded-full border-8 border-yellow-500 overflow-hidden shadow-xl transition-transform duration-8000 ease-out transform bg-white"
+              className="relative w-full h-full rounded-full border-[12px] border-yellow-500 overflow-hidden shadow-2xl transition-transform duration-8000 ease-out transform bg-white"
               style={{ 
                 transform: `rotate(${degrees}deg)`,
-                backgroundImage: 'radial-gradient(circle, #ffffff, #f9f9f9)'
+                backgroundImage: 'radial-gradient(circle, #ffffff, #f5f5f5)',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.2), inset 0 0 50px rgba(0,0,0,0.1)'
               }}
             >
               {restaurants.map((restaurant, index) => {
@@ -338,24 +346,24 @@ export default function FoodFinder() {
             <button
               onClick={spinWheel}
               disabled={rotating}
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-20 h-20 rounded-full ${
+              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-28 h-28 rounded-full ${
                 rotating 
                   ? 'bg-gradient-to-r from-gray-500 to-gray-600 animate-pulse' 
                   : 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
               } text-white font-bold shadow-lg transition-all duration-300 flex items-center justify-center`}
               style={{
                 boxShadow: rotating 
-                  ? '0 0 15px rgba(255,0,0,0.5), 0 0 30px rgba(255,0,0,0.3)' 
-                  : '0 4px 10px rgba(0,0,0,0.2)'
+                  ? '0 0 20px rgba(255,0,0,0.5), 0 0 40px rgba(255,0,0,0.3)' 
+                  : '0 6px 15px rgba(0,0,0,0.3), inset 0 1px 3px rgba(255,255,255,0.3)'
               }}
             >
               {rotating ? (
                 <div className="flex flex-col items-center">
-                  <span className="animate-spin text-xl mb-1">↻</span>
-                  <span className="text-sm">轉動中...</span>
+                  <span className="animate-spin text-2xl mb-1">↻</span>
+                  <span className="text-base font-medium">轉動中...</span>
                 </div>
               ) : (
-                <span>點我<br/>開始</span>
+                <span className="text-xl">點我<br/>開始</span>
               )}
             </button>
           </div>
@@ -493,6 +501,16 @@ export default function FoodFinder() {
         }
         .ease-out {
           transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈跳效果 */
+        }
+        
+        /* 指針旋轉動畫 */
+        @keyframes pointer-pulse {
+          0%, 100% { transform: scale(1) translateY(0); }
+          50% { transform: scale(1.05) translateY(-2px); }
+        }
+        
+        .animate-pointer-pulse {
+          animation: pointer-pulse 1s ease-in-out infinite;
         }
       `}</style>
     </Layout>
