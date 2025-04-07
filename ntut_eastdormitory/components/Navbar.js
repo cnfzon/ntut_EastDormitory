@@ -28,6 +28,18 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 當選單開啟時，防止頁面滾動
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen]);
+
   const isLoggedIn = typeof window !== "undefined" && localStorage.getItem("token");
 
   return (
@@ -41,17 +53,25 @@ export default function Navbar() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            {/* 漢堡選單按鈕 - 現在在左側 */}
+            {/* 漢堡選單按鈕 */}
             <button
-              className={`flex flex-col justify-center items-center space-y-1.5 w-10 h-10 mr-2 rounded-md ${
-                isScrolled ? 'bg-gray-100 text-gray-800' : 'bg-gray-800 bg-opacity-50 text-white'
+              className={`flex flex-col justify-center items-center w-12 h-12 rounded-lg mr-3 transition-all duration-300 ${
+                isScrolled 
+                  ? isMenuOpen 
+                    ? 'bg-blue-100 text-blue-700' 
+                    : 'hover:bg-gray-100 text-gray-800' 
+                  : isMenuOpen 
+                    ? 'bg-white bg-opacity-20 text-white' 
+                    : 'hover:bg-white hover:bg-opacity-10 text-white'
               }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="選單"
             >
-              <span className={`block w-5 h-0.5 ${isScrolled ? 'bg-gray-800' : 'bg-white'} rounded-full transition-transform duration-300 ${isMenuOpen ? 'transform rotate-45 translate-y-2' : ''}`}></span>
-              <span className={`block w-5 h-0.5 ${isScrolled ? 'bg-gray-800' : 'bg-white'} rounded-full transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`block w-5 h-0.5 ${isScrolled ? 'bg-gray-800' : 'bg-white'} rounded-full transition-transform duration-300 ${isMenuOpen ? 'transform -rotate-45 -translate-y-2' : ''}`}></span>
+              <div className="w-6 h-5 relative flex flex-col justify-between">
+                <span className={`block w-full h-0.5 rounded-full transition-all duration-300 ${isScrolled ? 'bg-current' : 'bg-white'} ${isMenuOpen ? 'transform rotate-45 translate-y-2' : ''}`}></span>
+                <span className={`block w-full h-0.5 rounded-full transition-all duration-300 ${isScrolled ? 'bg-current' : 'bg-white'} ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                <span className={`block w-full h-0.5 rounded-full transition-all duration-300 ${isScrolled ? 'bg-current' : 'bg-white'} ${isMenuOpen ? 'transform -rotate-45 -translate-y-2' : ''}`}></span>
+              </div>
             </button>
             
             <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
@@ -117,39 +137,67 @@ export default function Navbar() {
               </Link>
             )}
           </div>
-
-          {/* 移除原有的移動端選單按鈕 */}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - 改進動畫和設計 */}
         <div
-          className={`md:hidden fixed w-full left-0 transition-all duration-300 ${
+          className={`md:hidden fixed inset-0 z-50 transition-all duration-500 ${
             isMenuOpen
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 -translate-y-full pointer-events-none"
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
           }`}
         >
-          <div className="bg-white shadow-lg rounded-lg p-4 mt-2 mx-4">
-            <div className="flex flex-col space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  className={`px-4 py-3 rounded-md text-sm font-medium ${
-                    router.pathname === item.path
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-gray-600 hover:bg-blue-50"
-                  }`}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+            onClick={() => setIsMenuOpen(false)}
+          ></div>
+          <div 
+            className={`w-3/4 max-w-sm h-full bg-white shadow-xl overflow-y-auto transition-transform duration-500 transform ${
+              isMenuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-8">
+                <Link 
+                  href="/" 
+                  className="text-xl font-bold text-blue-600"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
+                  東宿舍
                 </Link>
-              ))}
+                <button
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="space-y-1">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+                      router.pathname === item.path
+                        ? "bg-blue-100 text-blue-700"
+                        : "text-gray-600 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+              
               {isLoggedIn ? (
-                <div className="pt-2 border-t border-gray-200 mt-2">
+                <div className="pt-6 border-t border-gray-200 mt-6 space-y-2">
+                  <p className="px-4 text-sm text-gray-500 mb-2">管理員功能</p>
                   <Link
                     href="/admin/change-password"
-                    className="px-4 py-3 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 block"
+                    className="block px-4 py-3 rounded-lg text-base font-medium text-gray-600 hover:bg-gray-50"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     修改密碼
@@ -160,20 +208,30 @@ export default function Navbar() {
                       router.push("/");
                       setIsMenuOpen(false);
                     }}
-                    className="mt-2 px-4 py-3 w-full rounded-md text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 text-left"
+                    className="w-full px-4 py-3 rounded-lg text-base font-medium bg-red-50 text-red-600 hover:bg-red-100 text-left"
                   >
                     登出
                   </button>
                 </div>
               ) : (
-                <Link
-                  href="/admin/login"
-                  className="mt-2 px-4 py-3 rounded-md text-sm font-medium bg-blue-600 text-white hover:bg-blue-700"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  管理員登入
-                </Link>
+                <div className="pt-6 border-t border-gray-200 mt-6">
+                  <Link
+                    href="/admin/login"
+                    className="block w-full px-4 py-3 rounded-lg text-base font-medium bg-blue-600 text-white hover:bg-blue-700 text-center"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    管理員登入
+                  </Link>
+                </div>
               )}
+              
+              <div className="pt-6 border-t border-gray-200 mt-6">
+                <p className="px-4 text-sm text-gray-500 mb-2">聯絡我們</p>
+                <p className="px-4 text-xs text-gray-500">
+                  地址：10655臺北市大安區建國南路一段81號<br />
+                  電話：02-27411584
+                </p>
+              </div>
             </div>
           </div>
         </div>
