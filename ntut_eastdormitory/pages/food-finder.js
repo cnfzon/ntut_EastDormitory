@@ -3,25 +3,29 @@ import Layout from "../components/Layout";
 import Image from "next/image";
 
 export default function FoodFinder() {
-  // 北科東校區宿舍方圓700公尺內的店家
-  const restaurants = [
-    { name: "麥當勞 (台北忠孝店)", type: "速食", image: "/images/restaurants/mcdonalds.jpg" },
-    { name: "胖老爹美式炸雞", type: "美式", image: "/images/restaurants/fried-chicken.jpg" },
-    { name: "八方雲集", type: "小吃", image: "/images/restaurants/dumpling.jpg" },
-    { name: "星巴克咖啡", type: "咖啡", image: "/images/restaurants/coffee.jpg" },
-    { name: "清心福全", type: "飲料", image: "/images/restaurants/bubble-tea.jpg" },
-    { name: "鼎泰豐", type: "中式", image: "/images/restaurants/chinese.jpg" },
-    { name: "CoCo都可", type: "飲料", image: "/images/restaurants/coco.jpg" },
-    { name: "鬍鬚張魯肉飯", type: "台式", image: "/images/restaurants/taiwanese.jpg" },
+  // 將餐廳分類
+  const dormRestaurants = [
+    { name: "全家便利商店", type: "便利商店", image: "/images/restaurants/convenience.jpg" },
+    { name: "好日食堂", type: "便當", image: "/images/restaurants/bento.jpg" },
+    { name: "攪和餅果室", type: "甜點", image: "/images/restaurants/dessert.jpg" },
+    { name: "歐趴號", type: "早餐", image: "/images/restaurants/breakfast.jpg" },
+    { name: "宣茶", type: "飲料", image: "/images/restaurants/tea.jpg" }
+  ];
+  
+  const greenCourtRestaurants = [
+    { name: "全家便利商店", type: "便利商店", image: "/images/restaurants/convenience.jpg" },
+    { name: "路易莎", type: "咖啡", image: "/images/restaurants/coffee.jpg" },
+    { name: "KALU可露", type: "甜點", image: "/images/restaurants/dessert.jpg" },
     { name: "摩斯漢堡", type: "速食", image: "/images/restaurants/mos.jpg" },
-    { name: "池上木片便當", type: "便當", image: "/images/restaurants/bento.jpg" },
-    { name: "小木屋鬆餅", type: "甜點", image: "/images/restaurants/dessert.jpg" },
-    { name: "50嵐", type: "飲料", image: "/images/restaurants/tea.jpg" },
-    { name: "爭鮮迴轉壽司", type: "日式", image: "/images/restaurants/sushi.jpg" },
-    { name: "subway", type: "三明治", image: "/images/restaurants/sandwich.jpg" },
-    { name: "拉亞漢堡", type: "早餐", image: "/images/restaurants/breakfast.jpg" },
-    { name: "7-11超商", type: "便利商店", image: "/images/restaurants/convenience.jpg" },
-    // 光華商場美食選項
+    { name: "龍家自助餐", type: "自助餐", image: "/images/restaurants/buffet.jpg" },
+    { name: "宣坊", type: "便當", image: "/images/restaurants/bento.jpg" },
+    { name: "日光料理", type: "日式", image: "/images/restaurants/japanese.jpg" },
+    { name: "文華食堂", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "天津蔥餅", type: "小吃", image: "/images/restaurants/taiwanese.jpg" }
+  ];
+  
+  // 光華商場美食選項
+  const kwangHuaRestaurants = [
     { name: "喬喜蛋炒飯專賣店", type: "中式", image: "/images/restaurants/chinese.jpg" },
     { name: "阿姊的店碳烤三明治", type: "三明治", image: "/images/restaurants/sandwich.jpg" },
     { name: "垃圾麵（喇舌麵）", type: "麵食", image: "/images/restaurants/noodles.jpg" },
@@ -58,12 +62,56 @@ export default function FoodFinder() {
     { name: "羊成小館", type: "中式", image: "/images/restaurants/chinese.jpg" },
     { name: "許雪莉泰國時尚餐廳", type: "泰式", image: "/images/restaurants/thai.jpg" }
   ];
+  
+  // 其他附近餐廳
+  const otherRestaurants = [
+    { name: "麥當勞 (台北忠孝店)", type: "速食", image: "/images/restaurants/mcdonalds.jpg" },
+    { name: "胖老爹美式炸雞", type: "美式", image: "/images/restaurants/fried-chicken.jpg" },
+    { name: "八方雲集", type: "小吃", image: "/images/restaurants/dumpling.jpg" },
+    { name: "星巴克咖啡", type: "咖啡", image: "/images/restaurants/coffee.jpg" },
+    { name: "清心福全", type: "飲料", image: "/images/restaurants/bubble-tea.jpg" },
+    { name: "鼎泰豐", type: "中式", image: "/images/restaurants/chinese.jpg" },
+    { name: "CoCo都可", type: "飲料", image: "/images/restaurants/coco.jpg" },
+    { name: "鬍鬚張魯肉飯", type: "台式", image: "/images/restaurants/taiwanese.jpg" },
+    { name: "池上木片便當", type: "便當", image: "/images/restaurants/bento.jpg" },
+    { name: "小木屋鬆餅", type: "甜點", image: "/images/restaurants/dessert.jpg" },
+    { name: "50嵐", type: "飲料", image: "/images/restaurants/tea.jpg" },
+    { name: "爭鮮迴轉壽司", type: "日式", image: "/images/restaurants/sushi.jpg" },
+    { name: "subway", type: "三明治", image: "/images/restaurants/sandwich.jpg" },
+    { name: "拉亞漢堡", type: "早餐", image: "/images/restaurants/breakfast.jpg" },
+    { name: "7-11超商", type: "便利商店", image: "/images/restaurants/convenience.jpg" }
+  ];
+
+  // 合併所有餐廳列表
+  const allRestaurants = [
+    ...dormRestaurants.map(r => ({ ...r, location: "宿舍餐廳" })),
+    ...greenCourtRestaurants.map(r => ({ ...r, location: "綠光庭園" })),
+    ...kwangHuaRestaurants.map(r => ({ ...r, location: "光華商場" })),
+    ...otherRestaurants.map(r => ({ ...r, location: "其他附近" }))
+  ];
 
   const [rotating, setRotating] = useState(false);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const [degrees, setDegrees] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [restaurants, setRestaurants] = useState(allRestaurants);
+  const [filter, setFilter] = useState("all");
   const wheelRef = useRef(null);
+
+  // 根據篩選條件更新餐廳列表
+  useEffect(() => {
+    if (filter === "all") {
+      setRestaurants(allRestaurants);
+    } else if (filter === "dorm") {
+      setRestaurants(dormRestaurants.map(r => ({ ...r, location: "宿舍餐廳" })));
+    } else if (filter === "greenCourt") {
+      setRestaurants(greenCourtRestaurants.map(r => ({ ...r, location: "綠光庭園" })));
+    } else if (filter === "kwangHua") {
+      setRestaurants(kwangHuaRestaurants.map(r => ({ ...r, location: "光華商場" })));
+    } else if (filter === "other") {
+      setRestaurants(otherRestaurants.map(r => ({ ...r, location: "其他附近" })));
+    }
+  }, [filter]);
 
   const spinWheel = () => {
     // 已經在旋轉中則不再觸發
@@ -119,13 +167,57 @@ export default function FoodFinder() {
         </div>
       </section>
 
+      {/* Filter Section */}
+      <section className="content-section pt-8 pb-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            <button 
+              onClick={() => setFilter("all")} 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'all' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+            >
+              所有餐廳
+            </button>
+            <button 
+              onClick={() => setFilter("dorm")} 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'dorm' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+            >
+              宿舍餐廳
+            </button>
+            <button 
+              onClick={() => setFilter("greenCourt")} 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'greenCourt' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+            >
+              綠光庭園
+            </button>
+            <button 
+              onClick={() => setFilter("kwangHua")} 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'kwangHua' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+            >
+              光華商場
+            </button>
+            <button 
+              onClick={() => setFilter("other")} 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'other' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+            >
+              其他附近
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Wheel Section */}
-      <section className="content-section py-10">
+      <section className="content-section py-6">
         <div className="max-w-4xl mx-auto text-center mb-8">
           <p className="text-xl text-gray-700 mb-6">
             不知道該吃什麼？只要按下按鈕，讓美食轉盤幫你做決定！
             <br />
-            <span className="text-sm text-gray-500">包含北科東校區宿舍方圓700公尺內及光華商場的美食選擇</span>
+            <span className="text-sm text-gray-500">
+              {filter === 'all' && '包含宿舍餐廳、綠光庭園、光華商場和其他附近的所有美食選擇'}
+              {filter === 'dorm' && '目前僅顯示宿舍餐廳的美食選擇'}
+              {filter === 'greenCourt' && '目前僅顯示綠光庭園的美食選擇'}
+              {filter === 'kwangHua' && '目前僅顯示光華商場的美食選擇'}
+              {filter === 'other' && '目前僅顯示其他附近的美食選擇'}
+            </span>
           </p>
           
           <div className="relative mb-10 mx-auto" style={{ width: 320, height: 320 }}>
@@ -143,8 +235,17 @@ export default function FoodFinder() {
               {restaurants.map((restaurant, index) => {
                 // 計算每個項目的角度
                 const angle = (360 / restaurants.length) * index;
-                // 設置每個項目的背景顏色（交替）
-                const bgcolor = index % 2 === 0 ? 'bg-orange-100' : 'bg-yellow-100';
+                // 設置每個項目的背景顏色（根據位置）
+                let bgcolor = 'bg-yellow-100';
+                if (restaurant.location === "宿舍餐廳") {
+                  bgcolor = 'bg-green-100';
+                } else if (restaurant.location === "綠光庭園") {
+                  bgcolor = 'bg-blue-100';
+                } else if (restaurant.location === "光華商場") {
+                  bgcolor = 'bg-purple-100';
+                } else if (restaurant.location === "其他附近") {
+                  bgcolor = 'bg-orange-100';
+                }
                 
                 return (
                   <div
@@ -193,7 +294,8 @@ export default function FoodFinder() {
             <h2 className="text-2xl font-bold text-center mb-6 text-orange-600">今天就決定是...</h2>
             <div className="bg-yellow-50 rounded-lg p-4 mb-6 text-center">
               <div className="text-3xl font-bold text-yellow-600 mb-1">{selectedRestaurant.name}</div>
-              <div className="text-gray-500">{selectedRestaurant.type}</div>
+              <div className="text-gray-500 mb-1">{selectedRestaurant.type}</div>
+              <div className="text-sm font-medium text-blue-600">{selectedRestaurant.location}</div>
             </div>
             
             <div className="relative h-40 mb-6 rounded-lg overflow-hidden bg-gray-200">
@@ -231,14 +333,70 @@ export default function FoodFinder() {
       {/* Restaurant List Section */}
       <section className="content-section bg-gray-50 py-12 rounded-xl mb-12">
         <div className="max-w-5xl mx-auto">
-          <h2 className="section-title mb-8">附近美食一覽</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {restaurants.map((restaurant, index) => (
-              <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                <div className="text-lg font-medium text-gray-800 mb-1">{restaurant.name}</div>
-                <div className="text-sm text-gray-500">{restaurant.type}</div>
-              </div>
-            ))}
+          <h2 className="section-title mb-8">美食選擇一覽</h2>
+          
+          {/* 宿舍餐廳 */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-green-700 mb-4 flex items-center">
+              <span className="w-4 h-4 bg-green-100 inline-block mr-2 rounded"></span>
+              宿舍餐廳
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {dormRestaurants.map((restaurant, index) => (
+                <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-green-400">
+                  <div className="text-lg font-medium text-gray-800 mb-1">{restaurant.name}</div>
+                  <div className="text-sm text-gray-500">{restaurant.type}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* 綠光庭園 */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-blue-700 mb-4 flex items-center">
+              <span className="w-4 h-4 bg-blue-100 inline-block mr-2 rounded"></span>
+              綠光庭園
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {greenCourtRestaurants.map((restaurant, index) => (
+                <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-blue-400">
+                  <div className="text-lg font-medium text-gray-800 mb-1">{restaurant.name}</div>
+                  <div className="text-sm text-gray-500">{restaurant.type}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* 光華商場 */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-purple-700 mb-4 flex items-center">
+              <span className="w-4 h-4 bg-purple-100 inline-block mr-2 rounded"></span>
+              光華商場
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {kwangHuaRestaurants.map((restaurant, index) => (
+                <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-purple-400">
+                  <div className="text-lg font-medium text-gray-800 mb-1">{restaurant.name}</div>
+                  <div className="text-sm text-gray-500">{restaurant.type}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* 其他附近 */}
+          <div>
+            <h3 className="text-xl font-bold text-orange-700 mb-4 flex items-center">
+              <span className="w-4 h-4 bg-orange-100 inline-block mr-2 rounded"></span>
+              其他附近
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {otherRestaurants.map((restaurant, index) => (
+                <div key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-orange-400">
+                  <div className="text-lg font-medium text-gray-800 mb-1">{restaurant.name}</div>
+                  <div className="text-sm text-gray-500">{restaurant.type}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
