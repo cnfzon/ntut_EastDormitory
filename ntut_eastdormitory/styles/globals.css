@@ -34,33 +34,77 @@ main {
 
 /* 卡片樣式 */
 .card {
-  @apply p-4 transition-all duration-300 hover:shadow-lg;
+  padding: 1rem;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* 按鈕樣式 */
 .btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center justify-center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700 shadow-sm hover:shadow-md;
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .btn-secondary {
-  @apply bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-200;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
 }
 
 .btn-white {
-  @apply text-blue-600 hover:bg-gray-100 shadow-sm hover:shadow-md;
+  color: #2563eb;
+}
+
+.btn-white:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .btn-outline-white {
-  @apply border-2 border-white text-white hover:bg-white hover:text-blue-600;
+  border: 2px solid white;
+  color: white;
+}
+
+.btn-outline-white:hover {
+  background-color: white;
+  color: #2563eb;
 }
 
 /* 輸入框樣式 */
 .input {
-  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px #3b82f6;
 }
 
 /* 動畫效果 */
@@ -84,11 +128,17 @@ main {
 }
 
 .nav-link {
-  @apply px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 mx-1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  margin: 0 0.25rem;
 }
 
 .nav-link-active {
-  @apply bg-blue-100 text-blue-700;
+  background-color: #dbeafe;
+  color: #1e40af;
 }
 
 /* 自定義滾動條樣式 */
@@ -117,7 +167,7 @@ main {
   }
   
   .card {
-    @apply p-4;
+    padding: 1rem;
   }
 
   main {
@@ -127,76 +177,140 @@ main {
 
 /* 行事曆樣式 */
 .calendar-container {
-  @apply shadow-lg p-4 md:p-6;
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .calendar-header {
-  @apply flex justify-between items-center mb-4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .calendar-grid {
-  @apply grid grid-cols-7 gap-1 md:gap-2;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .calendar-grid {
+    gap: 0.5rem;
+  }
 }
 
 .calendar-day {
-  @apply p-2 rounded-lg text-center transition-all cursor-pointer hover:bg-gray-100;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.calendar-day:hover {
+  background-color: #f3f4f6;
 }
 
 .calendar-day-header {
-  @apply font-medium text-gray-700 p-2;
+  font-weight: 500;
+  color: #4b5563;
+  padding: 0.5rem;
 }
 
 .calendar-day-today {
-  @apply bg-blue-100 text-blue-800 font-semibold;
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
 }
 
 .calendar-day-event {
-  @apply bg-blue-50 text-blue-700 relative hover:bg-blue-100;
+  background-color: #eff6ff;
+  color: #1e40af;
+  position: relative;
+}
+
+.calendar-day-event:hover {
+  background-color: #dbeafe;
 }
 
 .event-dot {
-  @apply w-2 h-2 rounded-full bg-blue-500 absolute bottom-1 left-1/2 transform -translate-x-1/2;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .event-list {
-  @apply mt-6 space-y-4;
+  margin-top: 1.5rem;
+}
+
+.event-list > * + * {
+  margin-top: 1rem;
 }
 
 .event-item {
-  @apply flex items-start p-4 shadow hover:shadow-md transition-shadow border border-gray-100;
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s;
+  border: 1px solid #f3f4f6;
+}
+
+.event-item:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .event-date {
-  @apply flex-shrink-0 w-12 text-center mr-4;
+  flex-shrink: 0;
+  width: 3rem;
+  text-align: center;
+  margin-right: 1rem;
 }
 
 .event-date-day {
-  @apply text-2xl font-bold text-gray-800;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
 }
 
 .event-date-month {
-  @apply text-xs text-gray-500 uppercase;
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
 }
 
 .event-content {
-  @apply flex-1;
+  flex: 1;
 }
 
 .event-title {
-  @apply text-lg font-semibold text-gray-800 mb-1;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
 }
 
 .event-time {
-  @apply text-sm text-gray-500 mb-2;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
 }
 
 .event-description {
-  @apply text-sm text-gray-600;
+  font-size: 0.875rem;
+  color: #4b5563;
 }
 
 /* 標題和段落樣式 */
 h1, h2, h3, h4, h5, h6 {
-  @apply tracking-tight;
+  letter-spacing: -0.025em;
 }
 
 .section-title {
