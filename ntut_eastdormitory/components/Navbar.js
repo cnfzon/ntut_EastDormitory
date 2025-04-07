@@ -39,9 +39,31 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
-            東宿舍
-          </Link>
+          <div className="flex items-center">
+            <button
+              className={`flex justify-center items-center min-w-[40px] h-[40px] border rounded-md ${
+                isScrolled ? 'border-gray-300 text-gray-600' : 'border-white text-white'
+              }`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+            <Link href="/" className={`ml-3 text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
+              東宿舍
+            </Link>
+          </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-3">
@@ -102,7 +124,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - 只在移動端顯示 */}
           <button
             className={`md:hidden ${isScrolled ? 'text-gray-600' : 'text-white'}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
