@@ -119,6 +119,7 @@ export default function FoodFinder() {
 
     setRotating(true);
     setShowModal(false);
+    setSelectedRestaurant(null);
     
     // 隨機選擇一家餐廳
     const randomIndex = Math.floor(Math.random() * restaurants.length);
@@ -129,17 +130,16 @@ export default function FoodFinder() {
     const itemAngle = 360 / restaurants.length;
     // 選中項目的中心位置
     const selectedAngle = randomIndex * itemAngle;
-    // 多轉幾圈 (5圈) 再加上目標角度，再減去一半項目角度使指針指向項目中心
-    const newDegrees = 1800 + selectedAngle - (itemAngle / 2);
+    // 多轉幾圈 (8圈) 再加上目標角度，再減去一半項目角度使指針指向項目中心
+    const newDegrees = 2880 + selectedAngle - (itemAngle / 2);
     
     setDegrees(newDegrees);
-    setSelectedRestaurant(selected);
     
     // 旋轉完成後顯示結果
     setTimeout(() => {
       setRotating(false);
-      setShowModal(true);
-    }, 5000); // 旋轉動畫持續5秒
+      setSelectedRestaurant(selected);
+    }, 8000); // 旋轉動畫持續8秒
   };
 
   return (
@@ -220,6 +220,17 @@ export default function FoodFinder() {
             </span>
           </p>
           
+          {selectedRestaurant && !rotating && (
+            <div className="my-8 bg-yellow-50 rounded-xl p-6 shadow-md max-w-lg mx-auto border-2 border-yellow-400 animate-fadeIn">
+              <h3 className="text-xl font-bold text-orange-600 mb-2">今天就決定是...</h3>
+              <div className="text-3xl font-bold text-yellow-600 mb-2">{selectedRestaurant.name}</div>
+              <div className="flex items-center justify-center gap-2 text-gray-600">
+                <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">{selectedRestaurant.type}</span>
+                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">{selectedRestaurant.location}</span>
+              </div>
+            </div>
+          )}
+          
           <div className="relative mb-10 mx-auto" style={{ width: 320, height: 320 }}>
             {/* 轉盤中心指針 */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-4 z-20">
@@ -229,7 +240,7 @@ export default function FoodFinder() {
             {/* 轉盤 */}
             <div
               ref={wheelRef}
-              className="relative w-full h-full rounded-full border-8 border-yellow-500 overflow-hidden shadow-xl transition-transform duration-5000 ease-out transform bg-white"
+              className="relative w-full h-full rounded-full border-8 border-yellow-500 overflow-hidden shadow-xl transition-transform duration-8000 ease-out transform bg-white"
               style={{ transform: `rotate(${degrees}deg)` }}
             >
               {restaurants.map((restaurant, index) => {
@@ -247,21 +258,28 @@ export default function FoodFinder() {
                   bgcolor = 'bg-orange-100';
                 }
                 
+                // 計算是否為當前選中的餐廳
+                const isSelected = selectedRestaurant && restaurant.name === selectedRestaurant.name;
+                const textColor = isSelected ? 'text-white font-bold' : 'text-transparent';
+                const itemBgColor = isSelected ? `${bgcolor.replace('100', '500')}` : bgcolor;
+                
                 return (
                   <div
                     key={index}
-                    className={`absolute w-1/2 h-1/2 ${bgcolor} flex items-center justify-end origin-bottom-right text-xs font-medium text-gray-800 p-1`}
+                    className={`absolute w-1/2 h-1/2 ${itemBgColor} flex items-center justify-end origin-bottom-right text-xs ${textColor} p-1 transition-colors duration-300`}
                     style={{
                       transform: `rotate(${angle}deg) skew(${90 - 360/restaurants.length}deg)`,
                       transformOrigin: '0% 100%'
                     }}
                   >
-                    <span
-                      className="transform -rotate-90 origin-center whitespace-nowrap overflow-hidden text-ellipsis"
-                      style={{ width: '100px', maxWidth: '100px' }}
-                    >
-                      {restaurant.name}
-                    </span>
+                    {!rotating && isSelected && (
+                      <span
+                        className="transform -rotate-90 origin-center whitespace-nowrap overflow-hidden text-ellipsis"
+                        style={{ width: '100px', maxWidth: '100px' }}
+                      >
+                        {restaurant.name}
+                      </span>
+                    )}
                   </div>
                 );
               })}
@@ -281,55 +299,12 @@ export default function FoodFinder() {
             </button>
           </div>
           
-          <p className="text-gray-500 italic">
+          <p className="text-gray-500 italic mt-4">
             {rotating ? '命運之輪正在轉動...' : '點擊中央按鈕開始'}
           </p>
         </div>
       </section>
 
-      {/* 結果彈窗 */}
-      {showModal && selectedRestaurant && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-8 max-w-md w-full animate-fadeIn shadow-2xl">
-            <h2 className="text-2xl font-bold text-center mb-6 text-orange-600">今天就決定是...</h2>
-            <div className="bg-yellow-50 rounded-lg p-4 mb-6 text-center">
-              <div className="text-3xl font-bold text-yellow-600 mb-1">{selectedRestaurant.name}</div>
-              <div className="text-gray-500 mb-1">{selectedRestaurant.type}</div>
-              <div className="text-sm font-medium text-blue-600">{selectedRestaurant.location}</div>
-            </div>
-            
-            <div className="relative h-40 mb-6 rounded-lg overflow-hidden bg-gray-200">
-              {/* 如果有圖片可以取消註解 
-              <Image
-                src={selectedRestaurant.image}
-                alt={selectedRestaurant.name}
-                layout="fill"
-                objectFit="cover"
-              />
-              */}
-              <div className="absolute inset-0 flex items-center justify-center text-8xl">
-                🍽️
-              </div>
-            </div>
-            
-            <div className="flex justify-between space-x-4">
-              <button 
-                onClick={() => setShowModal(false)} 
-                className="w-1/2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium transition-colors"
-              >
-                重新選擇
-              </button>
-              <button 
-                onClick={spinWheel} 
-                className="w-1/2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors"
-              >
-                再轉一次
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      
       {/* Restaurant List Section */}
       <section className="content-section bg-gray-50 py-12 rounded-xl mb-12">
         <div className="max-w-5xl mx-auto">
@@ -406,11 +381,18 @@ export default function FoodFinder() {
         .transition-transform {
           transition-property: transform;
         }
-        .duration-5000 {
-          transition-duration: 5000ms;
+        .duration-8000 {
+          transition-duration: 8000ms;
         }
         .ease-out {
           transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-in-out;
         }
       `}</style>
     </Layout>
