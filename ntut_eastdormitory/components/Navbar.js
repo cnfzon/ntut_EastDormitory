@@ -41,27 +41,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <button
-              className={`flex justify-center items-center min-w-[40px] h-[40px] border rounded-md ${
-                isScrolled ? 'border-gray-300 text-gray-600' : 'border-white text-white'
-              }`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-            <Link href="/" className={`ml-3 text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
+            <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
               東宿舍
             </Link>
           </div>
@@ -125,13 +105,15 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button - 只在移動端顯示 */}
+          {/* Mobile Menu Button - 保留漢堡選單按鈕 */}
           <button
-            className={`md:hidden ${isScrolled ? 'text-gray-600' : 'text-white'}`}
+            className={`md:hidden ${isScrolled ? 'text-gray-600' : 'text-white'} border rounded-md p-2 ${
+              isScrolled ? 'border-gray-300' : 'border-white'
+            }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
