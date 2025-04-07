@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export default function Announcement() {
   const [announcements, setAnnouncements] = useState([]);
@@ -7,9 +8,11 @@ export default function Announcement() {
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: '',
     content: '',
-    author: '宿舍管理員'
+    author: '宿舍管理員',
+    image: null
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,22 +35,42 @@ export default function Announcement() {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewAnnouncement({ ...newAnnouncement, image: file });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('title', newAnnouncement.title);
+      formData.append('content', newAnnouncement.content);
+      formData.append('author', newAnnouncement.author);
+      if (newAnnouncement.image) {
+        formData.append('image', newAnnouncement.image);
+      }
+
       const response = await fetch('/api/announcements', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(newAnnouncement)
+        body: formData
       });
 
       if (response.ok) {
         setShowForm(false);
-        setNewAnnouncement({ title: '', content: '', author: '宿舍管理員' });
+        setNewAnnouncement({ title: '', content: '', author: '宿舍管理員', image: null });
+        setPreviewImage(null);
         fetchAnnouncements();
       } else {
         const data = await response.json();
@@ -64,20 +87,20 @@ export default function Announcement() {
   };
 
   return (
-    <div className="mt-8">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">最新公告</h2>
+    <div className="animate-fadeIn">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-800">最新公告</h2>
         {isLoggedIn ? (
           <button
             onClick={() => setShowForm(!showForm)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="btn btn-primary"
           >
             {showForm ? '取消' : '發布公告'}
           </button>
         ) : (
           <button
             onClick={handleLogin}
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            className="btn btn-secondary"
           >
             管理員登入
           </button>
@@ -85,41 +108,85 @@ export default function Announcement() {
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="mb-6 p-4 border rounded-lg">
+        <form onSubmit={handleSubmit} className="card mb-8">
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">標題</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              標題
+            </label>
             <input
               type="text"
               value={newAnnouncement.title}
               onChange={(e) => setNewAnnouncement({ ...newAnnouncement, title: e.target.value })}
-              className="w-full p-2 border rounded"
+              className="input"
               required
+              placeholder="輸入公告標題"
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">內容</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              內容
+            </label>
             <textarea
               value={newAnnouncement.content}
               onChange={(e) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
-              className="w-full p-2 border rounded"
+              className="input"
               rows="4"
               required
+              placeholder="輸入公告內容"
             />
           </div>
-          <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              圖片
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="input"
+            />
+            {previewImage && (
+              <div className="mt-2">
+                <img
+                  src={previewImage}
+                  alt="預覽"
+                  className="max-w-xs rounded-lg shadow-md"
+                />
+              </div>
+            )}
+          </div>
+          <button type="submit" className="btn btn-primary">
             發布
           </button>
         </form>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {announcements.map((announcement) => (
-          <div key={announcement._id} className="border p-4 rounded-lg shadow">
-            <h3 className="text-xl font-semibold">{announcement.title}</h3>
-            <p className="text-gray-600 mt-2">{announcement.content}</p>
-            <div className="mt-2 text-sm text-gray-500">
-              <span>{new Date(announcement.date).toLocaleDateString()}</span>
-              <span className="ml-2">發布者：{announcement.author}</span>
+          <div key={announcement._id} className="card hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold text-gray-800">
+                {announcement.title}
+              </h3>
+              <span className="text-sm text-gray-500">
+                {new Date(announcement.date).toLocaleDateString()}
+              </span>
+            </div>
+            {announcement.imageUrl && (
+              <div className="mb-4">
+                <img
+                  src={announcement.imageUrl}
+                  alt={announcement.title}
+                  className="w-full h-64 object-cover rounded-lg"
+                />
+              </div>
+            )}
+            <p className="text-gray-600 mb-4">
+              {announcement.content}
+            </p>
+            <div className="flex items-center text-sm text-gray-500">
+              <span className="mr-2">發布者：</span>
+              <span className="font-medium">{announcement.author}</span>
             </div>
           </div>
         ))}
