@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 
 export default function Calendar() {
@@ -140,81 +140,79 @@ export default function Calendar() {
   }).sort((a, b) => new Date(a.date) - new Date(b.date));
   
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <Layout title="行事曆">
+      <div className="mb-8">
+        <h1 className="section-title">行事曆</h1>
+      </div>
       
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">行事曆</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* 行事曆部分 */}
-          <div className="md:col-span-2">
-            <div className="calendar-container">
-              <div className="calendar-header">
-                <button 
-                  onClick={goToPreviousMonth}
-                  className="btn btn-secondary"
-                >
-                  上個月
-                </button>
-                <h2 className="text-xl font-semibold">
-                  {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-                </h2>
-                <button 
-                  onClick={goToNextMonth}
-                  className="btn btn-secondary"
-                >
-                  下個月
-                </button>
-              </div>
-              
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* 行事曆部分 */}
+        <div className="md:col-span-2">
+          <div className="content-section">
+            <div className="calendar-header">
               <button 
-                onClick={goToToday}
-                className="btn btn-primary mb-4 w-full"
+                onClick={goToPreviousMonth}
+                className="btn btn-secondary"
               >
-                今天
+                上個月
               </button>
-              
-              <div className="calendar-grid">
-                {renderCalendarGrid()}
-              </div>
+              <h2 className="text-xl font-semibold">
+                {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+              </h2>
+              <button 
+                onClick={goToNextMonth}
+                className="btn btn-secondary"
+              >
+                下個月
+              </button>
             </div>
-          </div>
-          
-          {/* 事件列表部分 */}
-          <div className="md:col-span-1">
-            <div className="card h-full">
-              <h3 className="text-xl font-semibold mb-4">
-                {selectedDate 
-                  ? `${selectedDate.getMonth() + 1}月${selectedDate.getDate()}日的活動` 
-                  : `${currentDate.getMonth() + 1}月的活動`}
-              </h3>
-              
-              <div className="event-list">
-                {(selectedDate ? selectedDateEvents : currentMonthEvents).length > 0 ? (
-                  (selectedDate ? selectedDateEvents : currentMonthEvents).map(event => (
-                    <div key={event.id} className="event-item">
-                      <div className="event-date">
-                        <div className="event-date-day">{new Date(event.date).getDate()}</div>
-                        <div className="event-date-month">{monthNames[new Date(event.date).getMonth()].substring(0, 3)}</div>
-                      </div>
-                      <div className="event-content">
-                        <h4 className="event-title">{event.title}</h4>
-                        <div className="event-time">
-                          {`${new Date(event.date).getHours()}:${String(new Date(event.date).getMinutes()).padStart(2, '0')}`}
-                        </div>
-                        <p className="event-description">{event.description}</p>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-500 text-center py-4">沒有活動</p>
-                )}
-              </div>
+            
+            <button 
+              onClick={goToToday}
+              className="btn btn-primary mb-4 w-full"
+            >
+              今天
+            </button>
+            
+            <div className="calendar-grid">
+              {renderCalendarGrid()}
             </div>
           </div>
         </div>
-      </main>
-    </div>
+        
+        {/* 事件列表部分 */}
+        <div className="md:col-span-1">
+          <div className="content-section h-full">
+            <h3 className="text-xl font-semibold mb-4">
+              {selectedDate 
+                ? `${selectedDate.getMonth() + 1}月${selectedDate.getDate()}日的活動` 
+                : `${currentDate.getMonth() + 1}月的活動`}
+            </h3>
+            
+            <div className="event-list">
+              {(selectedDate ? selectedDateEvents : currentMonthEvents).length > 0 ? (
+                (selectedDate ? selectedDateEvents : currentMonthEvents).map(event => (
+                  <div key={event.id} className="event-item">
+                    <div className="event-date">
+                      <div className="event-date-day">{new Date(event.date).getDate()}</div>
+                      <div className="event-date-month">{monthNames[new Date(event.date).getMonth()].substring(0, 3)}</div>
+                    </div>
+                    <div className="event-content">
+                      <h4 className="event-title">{event.title}</h4>
+                      <div className="event-time">
+                        {`${new Date(event.date).getHours()}:${String(new Date(event.date).getMinutes()).padStart(2, '0')}`}
+                      </div>
+                      <p className="event-description">{event.description}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-center py-4">沒有活動</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 } 

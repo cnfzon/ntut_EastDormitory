@@ -37,37 +37,39 @@ export default function Navbar() {
           : "bg-black bg-opacity-20"
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'}`}>
+          <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
             東宿舍
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-3">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-sm font-medium transition-colors duration-200 ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 mx-1 hover:scale-105 ${
                   router.pathname === item.path
-                    ? isScrolled ? "text-blue-600" : "text-blue-300"
+                    ? isScrolled 
+                      ? "bg-blue-100 text-blue-700 shadow-sm" 
+                      : "bg-white bg-opacity-20 text-white shadow-sm"
                     : isScrolled
-                    ? "text-gray-600 hover:text-blue-600"
-                    : "text-white hover:text-blue-200"
+                      ? "text-gray-600 hover:bg-blue-50"
+                      : "text-white hover:bg-white hover:bg-opacity-10"
                 }`}
               >
                 {item.name}
               </Link>
             ))}
             {isLoggedIn ? (
-              <>
+              <div className="flex items-center ml-6 space-x-3">
                 <Link
                   href="/admin/change-password"
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:scale-105 ${
                     isScrolled
-                      ? "text-gray-600 hover:text-blue-600"
-                      : "text-white hover:text-blue-200"
+                      ? "border border-gray-300 text-gray-700 hover:bg-gray-100"
+                      : "border border-white text-white hover:bg-white hover:bg-opacity-10"
                   }`}
                 >
                   修改密碼
@@ -77,22 +79,22 @@ export default function Navbar() {
                     localStorage.removeItem("token");
                     router.push("/");
                   }}
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:scale-105 ${
                     isScrolled
-                      ? "text-gray-600 hover:text-blue-600"
-                      : "text-white hover:text-blue-200"
+                      ? "bg-red-50 text-red-600 hover:bg-red-100"
+                      : "bg-red-500 bg-opacity-20 text-white hover:bg-red-500 hover:bg-opacity-30"
                   }`}
                 >
                   登出
                 </button>
-              </>
+              </div>
             ) : (
               <Link
                 href="/admin/login"
-                className={`text-sm font-medium transition-colors duration-200 ${
+                className={`ml-6 px-5 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:scale-105 ${
                   isScrolled
-                    ? "text-gray-600 hover:text-blue-600"
-                    : "text-white hover:text-blue-200"
+                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+                    : "border-2 border-white text-white hover:bg-white hover:text-blue-600"
                 }`}
               >
                 管理員登入
@@ -139,15 +141,15 @@ export default function Navbar() {
           }`}
         >
           <div className="bg-white shadow-lg rounded-lg p-4 mt-2 mx-4">
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`text-sm font-medium ${
+                  className={`px-4 py-3 rounded-md text-sm font-medium ${
                     router.pathname === item.path
-                      ? "text-blue-600"
-                      : "text-gray-600 hover:text-blue-600"
+                      ? "bg-blue-100 text-blue-700"
+                      : "text-gray-600 hover:bg-blue-50"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -155,10 +157,10 @@ export default function Navbar() {
                 </Link>
               ))}
               {isLoggedIn ? (
-                <>
+                <div className="pt-2 border-t border-gray-200 mt-2">
                   <Link
                     href="/admin/change-password"
-                    className="text-sm font-medium text-gray-600 hover:text-blue-600"
+                    className="px-4 py-3 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 block"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     修改密碼
@@ -169,15 +171,15 @@ export default function Navbar() {
                       router.push("/");
                       setIsMenuOpen(false);
                     }}
-                    className="text-sm font-medium text-gray-600 hover:text-blue-600 text-left"
+                    className="mt-2 px-4 py-3 w-full rounded-md text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 text-left"
                   >
                     登出
                   </button>
-                </>
+                </div>
               ) : (
                 <Link
                   href="/admin/login"
-                  className="text-sm font-medium text-gray-600 hover:text-blue-600"
+                  className="mt-2 px-4 py-3 rounded-md text-sm font-medium bg-blue-600 text-white hover:bg-blue-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   管理員登入

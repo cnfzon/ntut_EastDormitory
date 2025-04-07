@@ -23,7 +23,7 @@ body {
 
 /* 添加頂部間距，防止導航欄覆蓋內容 */
 main {
-  padding-top: 4rem;
+  padding-top: 5rem;
 }
 
 .container {
@@ -39,28 +39,28 @@ main {
 
 /* 按鈕樣式 */
 .btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-all duration-300;
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center justify-center;
 }
 
 .btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
+  @apply bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  @apply bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-200;
 }
 
 .btn-white {
-  @apply bg-white text-blue-600 hover:bg-gray-100;
+  @apply bg-white text-blue-600 hover:bg-gray-100 shadow-md hover:shadow-lg;
 }
 
 .btn-outline-white {
-  @apply border border-white text-white hover:bg-white hover:text-blue-600;
+  @apply border-2 border-white text-white hover:bg-white hover:text-blue-600;
 }
 
 /* 輸入框樣式 */
 .input {
-  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300;
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300;
 }
 
 /* 動畫效果 */
@@ -81,6 +81,14 @@ main {
   padding: 0 1rem;
   position: relative;
   z-index: 50;
+}
+
+.nav-link {
+  @apply px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 mx-1;
+}
+
+.nav-link-active {
+  @apply bg-blue-100 text-blue-700;
 }
 
 /* 自定義滾動條樣式 */
@@ -113,13 +121,13 @@ main {
   }
 
   main {
-    padding-top: 3rem;
+    padding-top: 4rem;
   }
 } 
 
 /* 行事曆樣式 */
 .calendar-container {
-  @apply bg-white rounded-lg shadow-lg p-4 md:p-6;
+  @apply bg-white rounded-xl shadow-lg p-4 md:p-6;
 }
 
 .calendar-header {
@@ -131,7 +139,7 @@ main {
 }
 
 .calendar-day {
-  @apply p-2 rounded-lg text-center transition-all cursor-pointer;
+  @apply p-2 rounded-lg text-center transition-all cursor-pointer hover:bg-gray-100;
 }
 
 .calendar-day-header {
@@ -139,7 +147,7 @@ main {
 }
 
 .calendar-day-today {
-  @apply bg-blue-100 text-blue-800;
+  @apply bg-blue-100 text-blue-800 font-semibold;
 }
 
 .calendar-day-event {
@@ -155,7 +163,7 @@ main {
 }
 
 .event-item {
-  @apply flex items-start p-3 rounded-lg bg-white shadow hover:shadow-md transition-shadow;
+  @apply flex items-start p-4 rounded-lg bg-white shadow hover:shadow-md transition-shadow border border-gray-100;
 }
 
 .event-date {
@@ -184,4 +192,27 @@ main {
 
 .event-description {
   @apply text-sm text-gray-600;
+}
+
+/* 標題和段落樣式 */
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-tight;
+}
+
+.section-title {
+  @apply text-3xl font-bold text-center mb-12 text-gray-800;
+}
+
+.section-container {
+  @apply py-16 bg-white rounded-xl shadow-md my-12;
+}
+
+/* 新增全局區塊樣式 */
+.content-section {
+  @apply bg-white rounded-xl shadow-md p-6 md:p-8 my-8;
+}
+
+/* 頁面容器統一樣式 */
+.page-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6;
 } 
