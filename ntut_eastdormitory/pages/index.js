@@ -1,4 +1,6 @@
 import Navbar from "../components/Navbar";
+import Announcement from "../components/Announcement";
+import announcements from "../data/announcements";
 
 export default function Home() {
   return (
@@ -16,6 +18,7 @@ export default function Home() {
             <p>設有電梯、自習室、冷氣與洗衣設備。</p>
           </div>
         </div>
+        <Announcement announcements={announcements} />
       </main>
     </div>
   );
