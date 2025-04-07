@@ -41,6 +41,19 @@ export default function Navbar() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
+            {/* 漢堡選單按鈕 - 現在在左側 */}
+            <button
+              className={`flex flex-col justify-center items-center space-y-1.5 w-10 h-10 mr-2 rounded-md ${
+                isScrolled ? 'bg-gray-100 text-gray-800' : 'bg-gray-800 bg-opacity-50 text-white'
+              }`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="選單"
+            >
+              <span className={`block w-5 h-0.5 ${isScrolled ? 'bg-gray-800' : 'bg-white'} rounded-full transition-transform duration-300 ${isMenuOpen ? 'transform rotate-45 translate-y-2' : ''}`}></span>
+              <span className={`block w-5 h-0.5 ${isScrolled ? 'bg-gray-800' : 'bg-white'} rounded-full transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+              <span className={`block w-5 h-0.5 ${isScrolled ? 'bg-gray-800' : 'bg-white'} rounded-full transition-transform duration-300 ${isMenuOpen ? 'transform -rotate-45 -translate-y-2' : ''}`}></span>
+            </button>
+            
             <Link href="/" className={`text-xl font-bold ${isScrolled ? 'text-blue-600' : 'text-white'} hover:opacity-80 transition-opacity`}>
               東宿舍
             </Link>
@@ -105,36 +118,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button - 保留漢堡選單按鈕 */}
-          <button
-            className={`md:hidden ${isScrolled ? 'text-gray-600' : 'text-white'} border rounded-md p-2 ${
-              isScrolled ? 'border-gray-300' : 'border-white'
-            }`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {isMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+          {/* 移除原有的移動端選單按鈕 */}
         </div>
 
         {/* Mobile Menu */}
