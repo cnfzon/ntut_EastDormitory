@@ -1,6 +1,7 @@
-require('dotenv').config({ path: '.env.local' });
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const path = require('path');
+require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -9,63 +10,89 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-const defaultAdmins = [
+// 定義 Admin Schema
+const adminSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ['superadmin', 'admin'],
+    default: 'admin',
+  },
+  lastLogin: {
+    type: Date,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// 密碼加密中間件
+adminSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+const Admin = mongoose.models.Admin || mongoose.model('Admin', adminSchema);
+
+const adminAccounts = [
   {
     username: 'superadmin',
     password: 'Ntut@2024#Super',
-    name: '系統管理員',
     role: 'superadmin',
+    name: '系統管理員'
   },
   {
     username: 'dormadmin',
     password: 'EastDorm@2024#Admin',
-    name: '宿舍管理員',
     role: 'admin',
+    name: '宿舍管理員'
   },
   {
     username: 'eventadmin',
     password: 'Events@2024#Manager',
-    name: '活動管理員',
     role: 'admin',
-  },
+    name: '活動管理員'
+  }
 ];
 
 async function initAdmins() {
   try {
+    console.log('正在連接到 MongoDB...');
     await mongoose.connect(MONGODB_URI);
     console.log('已連接到 MongoDB');
 
-    // 檢查是否已經有管理員帳號
-    const Admin = mongoose.model('Admin', new mongoose.Schema({
-      username: String,
-      password: String,
-      name: String,
-      role: String,
-      lastLogin: Date,
-      createdAt: { type: Date, default: Date.now },
-    }));
+    // 清除所有現有管理員帳號
+    await Admin.deleteMany({});
+    console.log('已清除現有管理員帳號');
 
-    const existingAdmins = await Admin.find({});
-    if (existingAdmins.length > 0) {
-      console.log('管理員帳號已存在，跳過初始化');
-      process.exit(0);
-    }
-
-    // 創建管理員帳號
-    for (const admin of defaultAdmins) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(admin.password, salt);
-      
-      const newAdmin = new Admin({
-        ...admin,
-        password: hashedPassword,
-      });
-      
-      await newAdmin.save();
-      console.log(`已創建管理員帳號: ${admin.username}`);
+    // 創建新的管理員帳號
+    for (const account of adminAccounts) {
+      const admin = new Admin(account);
+      await admin.save();
+      console.log(`已創建管理員帳號: ${account.username}`);
     }
 
     console.log('管理員帳號初始化完成');
+    await mongoose.disconnect();
     process.exit(0);
   } catch (error) {
     console.error('初始化管理員帳號失敗:', error);
