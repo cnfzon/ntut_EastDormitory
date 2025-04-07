@@ -46,16 +46,19 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div>
               <p className="text-gray-700 mb-4 leading-relaxed">
-                國立臺北科技大學東校區宿舍位於臺北市大安區建國南路一段81號，是一座現代化的學生宿舍，提供舒適、安全的居住環境，讓學生能夠專心於學業，同時享受舒適的校園生活。
+                台北科技大學東校區學生宿舍座落於臺北市黃金地段－地址為臺北市大安區建國南路一段八十一號。距離忠孝新生捷運站步行約5分鐘，鄰近的忠孝東路及建國南路上有餐廳、小吃、超市、診所、藥局、金融機構、運動場等，生活機能完善。
               </p>
               <p className="text-gray-700 mb-4 leading-relaxed">
-                我們的宿舍配備完善的設施，包括空調、網路、洗衣設備、自習室等，滿足學生的各種需求。我們也定期舉辦各種活動，促進宿舍生活的多樣性和社交互動。
+                本宿舍一樓辦公室電話為02-27411584，宿舍管理室人員為24小時輪班，提供住宿學生所需的協助。學務長及負責教官非常用心於宿舍的各項事務，為的就是提供良好的住宿環境給台北科技大學的學生，讓學生有家的感覺，不會感到寂寞，同時房間窗明几淨，是個良好的讀書環境。
+              </p>
+              <p className="text-gray-700 mb-4 leading-relaxed">
+                宿舍設施完善，籃球場、網球場、排球場、操場、足球場、桌球室和撞球室等等就設置於宿舍外，在課後之餘，使學生有充分的空間休閒放鬆，從此可看出學校對於學生的用心良苦。
               </p>
               <ul className="list-disc pl-5 text-gray-700 space-y-2">
                 <li>舒適的住宿環境</li>
                 <li>完善的安全管理</li>
-                <li>豐富的社交活動</li>
-                <li>便利的生活設施</li>
+                <li>便利的生活機能</li>
+                <li>豐富的運動設施</li>
                 <li>專業的管理團隊</li>
               </ul>
             </div>
@@ -235,67 +238,30 @@ export default function About() {
       </section>
 
       {/* Contact Section */}
-      <section className="content-section">
+      <section className="content-section bg-gray-50 py-12 rounded-xl">
         <div className="max-w-5xl mx-auto">
-          <h2 className="section-title">聯絡我們</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div className="card p-6 border border-gray-100 rounded-xl">
-              <h3 className="text-xl font-semibold mb-4">聯絡資訊</h3>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-blue-600">📍</span>
-                  </span>
-                  <div>
-                    <p className="font-medium">地址</p>
-                    <p className="text-gray-600">
-                      10655臺北市大安區建國南路一段81號
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-blue-600">📞</span>
-                  </span>
-                  <div>
-                    <p className="font-medium">電話</p>
-                    <p className="text-gray-600">
-                      02-27411584
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-blue-600">✉️</span>
-                  </span>
-                  <div>
-                    <p className="font-medium">電子郵件</p>
-                    <p className="text-gray-600">
-                      jasonlin@ntut.edu.tw
-                    </p>
-                  </div>
-                </div>
+          <h2 className="section-title">聯絡資訊</h2>
+          <div className="bg-white p-8 rounded-xl shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-xl font-semibold mb-4 text-blue-700">地址</h3>
+                <p className="text-gray-700 mb-2">10655臺北市大安區建國南路一段81號</p>
+                <p className="text-gray-700 mb-4">No. 81, Sec. 1, Jianguo S. Rd., Da'an Dist., Taipei City 106, Taiwan (R.O.C.)</p>
+                
+                <h3 className="text-xl font-semibold mb-4 text-blue-700 mt-6">聯絡電話</h3>
+                <p className="text-gray-700 mb-4">宿舍管理室：02-27411584（24小時輪班）</p>
+                
+                <h3 className="text-xl font-semibold mb-4 text-blue-700">電子郵件</h3>
+                <p className="text-gray-700">E-mail: jasonlin@ntut.edu.tw</p>
               </div>
-            </div>
-            <div className="card p-6 border border-gray-100 rounded-xl">
-              <h3 className="text-xl font-semibold mb-4">開放時間</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between border-b border-gray-100 pb-2">
-                  <span className="font-medium">週一至週五</span>
-                  <span className="text-gray-600">08:00 - 22:00</span>
-                </div>
-                <div className="flex justify-between border-b border-gray-100 pb-2">
-                  <span className="font-medium">週六</span>
-                  <span className="text-gray-600">09:00 - 18:00</span>
-                </div>
-                <div className="flex justify-between border-b border-gray-100 pb-2">
-                  <span className="font-medium">週日</span>
-                  <span className="text-gray-600">10:00 - 18:00</span>
-                </div>
-                <div className="flex justify-between border-b border-gray-100 pb-2">
-                  <span className="font-medium">國定假日</span>
-                  <span className="text-gray-600">10:00 - 16:00</span>
-                </div>
+              <div className="relative h-64 md:h-auto rounded-xl overflow-hidden shadow-md">
+                <Image
+                  src="/images/map.jpg"
+                  alt="宿舍地圖"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl"
+                />
               </div>
             </div>
           </div>
