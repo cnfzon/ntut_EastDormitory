@@ -173,31 +173,51 @@ export default function FoodFinder() {
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             <button 
               onClick={() => setFilter("all")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'all' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+                filter === 'all' 
+                  ? 'bg-orange-500 text-white shadow-md scale-105 ring-2 ring-orange-300' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+              }`}
             >
               所有餐廳
             </button>
             <button 
               onClick={() => setFilter("dorm")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'dorm' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+                filter === 'dorm' 
+                  ? 'bg-green-500 text-white shadow-md scale-105 ring-2 ring-green-300' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+              }`}
             >
               宿舍餐廳
             </button>
             <button 
               onClick={() => setFilter("greenCourt")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'greenCourt' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+                filter === 'greenCourt' 
+                  ? 'bg-blue-500 text-white shadow-md scale-105 ring-2 ring-blue-300' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+              }`}
             >
               綠光庭園
             </button>
             <button 
               onClick={() => setFilter("kwangHua")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'kwangHua' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+                filter === 'kwangHua' 
+                  ? 'bg-purple-500 text-white shadow-md scale-105 ring-2 ring-purple-300' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+              }`}
             >
               光華商場
             </button>
             <button 
               onClick={() => setFilter("other")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'other' ? 'bg-orange-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+                filter === 'other' 
+                  ? 'bg-orange-500 text-white shadow-md scale-105 ring-2 ring-orange-300' 
+                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+              }`}
             >
               其他附近
             </button>
@@ -300,7 +320,7 @@ export default function FoodFinder() {
           </div>
           
           <p className="text-gray-500 italic mt-4">
-            {rotating ? 'cow我超2' : 'cow我超2'}
+            {rotating ? 'cow我超2' : '點擊中央按鈕開始'}
           </p>
         </div>
       </section>
