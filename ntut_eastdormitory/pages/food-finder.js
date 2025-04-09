@@ -249,7 +249,7 @@ export default function FoodFinder() {
             </div>
           )}
           
-          <div className="relative mx-auto" style={{ width: 420, height: 420 }}>
+          <div className="relative mx-auto flex justify-center items-center" style={{ width: 420, height: 420 }}>
             {/* 轉盤中心指針 */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-5 z-20">
               <div className="pointer-flash" ref={el => rotating && el?.classList.add('pointer-flash-active')}>
@@ -272,13 +272,14 @@ export default function FoodFinder() {
                 { name: "光華商場", color: '#fceeb2' },
                 { name: "其他附近", color: '#ff9090' }
               ].map((section, index) => {
-                const angle = 90 * index;
+                // 計算每個扇形的角度（360度除以選項數量）
+                const angle = (360 / 4) * index;
                 return (
                   <div
                     key={index}
                     className="absolute w-1/2 h-1/2 flex items-center justify-center origin-bottom-right"
                     style={{
-                      transform: `rotate(${angle}deg) skew(0deg)`,
+                      transform: `rotate(${angle}deg) skew(${90 - 360/4}deg)`,
                       transformOrigin: '0% 100%',
                       background: section.color,
                       borderLeft: index % 2 === 0 ? '1px solid rgba(255,255,255,0.3)' : 'none'
@@ -287,13 +288,13 @@ export default function FoodFinder() {
                     <div 
                       className="absolute"
                       style={{ 
-                        transform: `rotate(${45}deg)`,
+                        transform: `skew(${-(90 - 360/4)}deg) rotate(${90}deg)`,
                         width: '120px',
                         textAlign: 'center',
                         fontSize: '16px',
                         fontWeight: 'bold',
                         color: '#333',
-                        bottom: '55%',
+                        bottom: '60%',
                         textShadow: '0 1px 1px rgba(255,255,255,0.8)'
                       }}
                     >
