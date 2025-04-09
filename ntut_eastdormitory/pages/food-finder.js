@@ -173,11 +173,11 @@ export default function FoodFinder() {
           <div className="relative mb-4">
             <button 
               onClick={() => setFilter("all")}
-              className="flex flex-col items-center justify-center w-12 h-12 bg-white rounded-full shadow-md mb-2 mx-auto hover:shadow-lg transition-all duration-300"
+              className="flex flex-col items-center justify-center w-16 h-16 bg-white rounded-full shadow-md mb-2 mx-auto hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-6 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
-              <div className="w-6 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
-              <div className="w-6 h-0.5 bg-gray-700 rounded-full"></div>
+              <div className="w-8 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
+              <div className="w-8 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
+              <div className="w-8 h-0.5 bg-gray-700 rounded-full"></div>
             </button>
             <p className="text-center text-sm text-gray-500">點擊查看選項</p>
           </div>
