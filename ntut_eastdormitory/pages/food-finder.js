@@ -264,14 +264,9 @@ export default function FoodFinder() {
           
           <div className="relative mb-10 mx-auto" style={{ width: 420, height: 420 }}>
             {/* 轉盤中心指針 */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-8 z-20">
-              <div className="w-10 h-16 flex flex-col items-center">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-b from-red-500 to-red-700 flex items-center justify-center shadow-lg border-2 border-white">
-                  <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
-                    <div className="w-3 h-3 rounded-full bg-red-600"></div>
-                  </div>
-                </div>
-                <div className="w-0 h-0 border-l-[20px] border-r-[20px] border-b-[30px] border-l-transparent border-r-transparent border-b-red-600 -mt-3"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-5 z-20">
+              <div className="pointer-flash" ref={el => rotating && el?.classList.add('pointer-flash-active')}>
+                <div className="w-0 h-0 border-l-[18px] border-r-[18px] border-b-[35px] border-l-transparent border-r-transparent border-b-red-600"></div>
               </div>
             </div>
             
@@ -290,64 +285,58 @@ export default function FoodFinder() {
                 const angle = (360 / restaurants.length) * index;
                 
                 // 設置每個項目的背景顏色（根據位置和索引）
-                let baseColor, textBaseColor;
+                let baseColor;
+                let textColor = 'black';
                 if (restaurant.location === "宿舍餐廳") {
-                  baseColor = 'green';
-                  textBaseColor = 'text-green-700';
+                  baseColor = '#92e9a3'; // 淺綠色
                 } else if (restaurant.location === "綠光庭園") {
-                  baseColor = 'blue';
-                  textBaseColor = 'text-blue-700';
+                  baseColor = '#4d99ff'; // 藍色
                 } else if (restaurant.location === "光華商場") {
-                  baseColor = 'purple';
-                  textBaseColor = 'text-purple-700';
+                  baseColor = '#fceeb2'; // 淺黃色
                 } else if (restaurant.location === "其他附近") {
-                  baseColor = 'orange';
-                  textBaseColor = 'text-orange-700';
+                  baseColor = '#ff9090'; // 淺紅色
                 } else {
-                  baseColor = 'yellow';
-                  textBaseColor = 'text-yellow-700';
+                  baseColor = '#f1cdff'; // 淺紫色
                 }
-                
-                // 根據索引交替顏色深淺
-                const colorIntensity = index % 2 === 0 ? '100' : '200';
-                const bgColor = `bg-${baseColor}-${colorIntensity}`;
-                
-                // 根據索引位置設置漸變效果
-                const bgGradient = index % 2 === 0 
-                  ? `linear-gradient(135deg, var(--tw-gradient-stops))`
-                  : `linear-gradient(45deg, var(--tw-gradient-stops))`;
-                
-                const fromColor = `from-${baseColor}-${colorIntensity}`;
-                const toColor = `to-${baseColor}-${parseInt(colorIntensity) + 100}`;
                 
                 // 計算是否為當前選中的餐廳
                 const isSelected = selectedRestaurant && restaurant.name === selectedRestaurant.name;
-                const textColor = isSelected ? 'text-white font-bold' : 'text-transparent';
-                const itemBgColor = isSelected ? `${baseColor}-500` : `${baseColor}-${colorIntensity}`;
+                const displayTextColor = isSelected ? 'text-white font-bold' : 'text-transparent';
                 
                 return (
                   <div
                     key={index}
-                    className={`absolute w-1/2 h-1/2 flex items-center justify-end origin-bottom-right text-xs ${textColor} p-1 transition-all duration-300`}
+                    className={`absolute w-1/2 h-1/2 flex items-center justify-center origin-bottom-right text-sm ${displayTextColor} transition-all duration-300`}
                     style={{
                       transform: `rotate(${angle}deg) skew(${90 - 360/restaurants.length}deg)`,
                       transformOrigin: '0% 100%',
-                      background: isSelected 
-                        ? `linear-gradient(to right, #${baseColor}500, #${baseColor}600)`
-                        : `${bgGradient}`,
-                      '--tw-gradient-from': `var(--tw-${fromColor})`,
-                      '--tw-gradient-to': `var(--tw-${toColor})`,
-                      boxShadow: isSelected ? '0 0 8px rgba(0,0,0,0.2) inset' : 'none'
+                      background: isSelected ? `${baseColor}` : `${baseColor}`,
+                      boxShadow: isSelected ? '0 0 8px rgba(0,0,0,0.3) inset' : 'none',
+                      borderLeft: index % 2 === 0 ? '1px solid rgba(255,255,255,0.3)' : 'none'
                     }}
                   >
-                    {!rotating && isSelected && (
-                      <span
-                        className="transform -rotate-90 origin-center whitespace-nowrap overflow-hidden text-ellipsis font-bold"
-                        style={{ width: '100px', maxWidth: '100px' }}
-                      >
-                        {restaurant.name}
-                      </span>
-                    )}
+                    <div 
+                      className="restaurant-name origin-center"
+                      style={{ 
+                        transform: `skew(${-(90 - 360/restaurants.length)}deg) rotate(${90}deg)`,
+                        position: 'absolute',
+                        width: '100%', 
+                        textAlign: 'center',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        color: textColor,
+                        opacity: 0.9,
+                        textShadow: '0 1px 1px rgba(255,255,255,0.8)',
+                        bottom: '60%',
+                        lineHeight: '1.2',
+                        maxWidth: '100px',
+                        margin: '0 auto',
+                        left: 0,
+                        right: 0
+                      }}
+                    >
+                      {restaurant.name.length > 8 ? restaurant.name.slice(0, 8) + '...' : restaurant.name}
+                    </div>
                   </div>
                 );
               })}
@@ -357,24 +346,20 @@ export default function FoodFinder() {
             <button
               onClick={spinWheel}
               disabled={rotating}
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-28 h-28 rounded-full ${
-                rotating 
-                  ? 'bg-gradient-to-r from-gray-500 to-gray-600 animate-pulse' 
-                  : 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
-              } text-white font-bold shadow-lg transition-all duration-300 flex items-center justify-center`}
+              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-32 h-32 rounded-full bg-[#5b3b19] text-white font-bold shadow-lg transition-all duration-300 flex items-center justify-center`}
               style={{
                 boxShadow: rotating 
-                  ? '0 0 20px rgba(255,0,0,0.5), 0 0 40px rgba(255,0,0,0.3)' 
+                  ? '0 0 20px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3)' 
                   : '0 6px 15px rgba(0,0,0,0.3), inset 0 1px 3px rgba(255,255,255,0.3)'
               }}
             >
               {rotating ? (
                 <div className="flex flex-col items-center">
-                  <span className="animate-spin text-2xl mb-1">↻</span>
+                  <span className="animate-spin text-3xl mb-1">⟳</span>
                   <span className="text-base font-medium">轉動中...</span>
                 </div>
               ) : (
-                <span className="text-xl">點我<br/>開始</span>
+                <span className="text-2xl">按一下以旋轉</span>
               )}
             </button>
           </div>
@@ -462,7 +447,7 @@ export default function FoodFinder() {
           transition-duration: 3000ms;
         }
         .ease-out {
-          transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+          transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈跳效果 */
         }
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -470,34 +455,6 @@ export default function FoodFinder() {
         }
         .animate-fadeIn {
           animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        /* 轉盤漸變色定義 */
-        :root {
-          --tw-from-green-100: #dcfce7;
-          --tw-to-green-200: #bbf7d0;
-          --tw-from-green-200: #bbf7d0;
-          --tw-to-green-300: #86efac;
-          
-          --tw-from-blue-100: #dbeafe;
-          --tw-to-blue-200: #bfdbfe;
-          --tw-from-blue-200: #bfdbfe;
-          --tw-to-blue-300: #93c5fd;
-          
-          --tw-from-purple-100: #f3e8ff;
-          --tw-to-purple-200: #e9d5ff;
-          --tw-from-purple-200: #e9d5ff;
-          --tw-to-purple-300: #d8b4fe;
-          
-          --tw-from-orange-100: #ffedd5;
-          --tw-to-orange-200: #fed7aa;
-          --tw-from-orange-200: #fed7aa;
-          --tw-to-orange-300: #fdba74;
-          
-          --tw-from-yellow-100: #fef9c3;
-          --tw-to-yellow-200: #fef08a;
-          --tw-from-yellow-200: #fef08a;
-          --tw-to-yellow-300: #fde047;
         }
         
         /* 自定義轉動效果 */
@@ -511,14 +468,29 @@ export default function FoodFinder() {
           transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈跳效果 */
         }
         
-        /* 指針旋轉動畫 */
-        @keyframes pointer-pulse {
-          0%, 100% { transform: scale(1) translateY(0); }
-          50% { transform: scale(1.05) translateY(-2px); }
+        /* 指針動畫 */
+        @keyframes pointer-flash {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.8; }
         }
         
-        .animate-pointer-pulse {
-          animation: pointer-pulse 1s ease-in-out infinite;
+        .pointer-flash {
+          animation: pointer-flash 1s ease-in-out infinite;
+          animation-play-state: paused;
+        }
+        
+        .pointer-flash-active {
+          animation-play-state: running;
+        }
+        
+        /* 轉盤動畫結束後提示文字閃爍 */
+        @keyframes text-blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+        
+        .blink-text {
+          animation: text-blink 1.5s ease-in-out infinite;
         }
       `}</style>
     </Layout>
