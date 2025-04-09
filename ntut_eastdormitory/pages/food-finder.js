@@ -266,75 +266,40 @@ export default function FoodFinder() {
                 boxShadow: '0 0 30px rgba(0,0,0,0.15), inset 0 0 50px rgba(0,0,0,0.1)'
               }}
             >
-              {restaurants.map((restaurant, index) => {
-                // 計算每個扇形的角度（360度除以選項數量）
-                const angle = (360 / restaurants.length) * index;
-                const nextAngle = (360 / restaurants.length) * (index + 1);
-                
-                // 根據餐廳位置設置顏色
-                let sectionColor;
-                switch (restaurant.location) {
-                  case "宿舍餐廳":
-                    sectionColor = '#92e9a3';
-                    break;
-                  case "綠光庭園":
-                    sectionColor = '#4d99ff';
-                    break;
-                  case "光華商場":
-                    sectionColor = '#fceeb2';
-                    break;
-                  case "其他附近":
-                    sectionColor = '#ff9090';
-                    break;
-                  default:
-                    sectionColor = '#e5e5e5';
-                }
-
-                // 計算扇形路徑
-                const startAngle = (angle * Math.PI) / 180;
-                const endAngle = (nextAngle * Math.PI) / 180;
-                const radius = 210; // 轉盤半徑
-                
-                // 扇形的起點和終點座標
-                const x1 = radius * Math.cos(startAngle) + radius;
-                const y1 = radius * Math.sin(startAngle) + radius;
-                const x2 = radius * Math.cos(endAngle) + radius;
-                const y2 = radius * Math.sin(endAngle) + radius;
-                
-                // 建立扇形路徑 (用於clipPath)
-                const pathData = [
-                  `M ${radius} ${radius}`, // 從中心點開始
-                  `L ${x1} ${y1}`, // 到第一個點
-                  `A ${radius} ${radius} 0 ${(nextAngle - angle > 180) ? 1 : 0} 1 ${x2} ${y2}`, // 弧線到第二個點
-                  'Z' // 關閉路徑
-                ].join(' ');
-
+              {[
+                { name: "宿舍餐廳", color: '#ff6b6b' },
+                { name: "綠光庭園", color: '#92e9a3' },
+                { name: "光華商場", color: '#fceeb2' },
+                { name: "其他附近", color: '#a29bfe' }
+              ].map((section, index) => {
+                const angle = (360 / 4) * index;
                 return (
                   <div
                     key={index}
                     className="absolute w-full h-full origin-center"
                     style={{
-                      background: sectionColor,
-                      clipPath: `path('${pathData}')`
+                      transform: `rotate(${angle}deg)`,
+                      clipPath: 'polygon(50% 50%, 0% 0%, 100% 0%)',
+                      background: section.color
                     }}
                   >
                     <div 
                       className="absolute"
                       style={{ 
-                        transform: `rotate(${angle + (360 / restaurants.length / 2)}deg)`,
+                        transform: `rotate(${45}deg)`,
                         width: '120px',
                         textAlign: 'center',
-                        fontSize: '14px',
+                        fontSize: '16px',
                         fontWeight: 'bold',
                         color: '#333',
                         left: '50%',
                         top: '50%',
-                        marginLeft: radius / 2 - 10,
+                        marginLeft: '-60px',
                         marginTop: '-10px',
                         textShadow: '0 1px 1px rgba(255,255,255,0.8)'
                       }}
                     >
-                      {filter === 'all' ? restaurant.location : restaurant.name}
+                      {section.name}
                     </div>
                   </div>
                 );
