@@ -260,20 +260,35 @@ export default function FoodFinder() {
             {/* 轉盤 */}
             <div
               ref={wheelRef}
-              className="relative w-full h-full rounded-full border-[16px] border-[#1a1a1a] overflow-hidden shadow-2xl transition-transform duration-8000 ease-out transform"
+              className="relative w-full h-full rounded-full border-[16px] border-[#1a1a1a] overflow-hidden shadow-2xl transition-transform duration-8000 ease-out transform bg-white"
               style={{ 
                 transform: `rotate(${degrees}deg)`,
                 boxShadow: '0 0 30px rgba(0,0,0,0.15), inset 0 0 50px rgba(0,0,0,0.1)'
               }}
             >
-              {[
-                { name: "宿舍餐廳", color: '#92e9a3' },
-                { name: "綠光庭園", color: '#4d99ff' },
-                { name: "光華商場", color: '#fceeb2' },
-                { name: "其他附近", color: '#ff9090' }
-              ].map((section, index) => {
+              {restaurants.map((restaurant, index) => {
                 // 計算每個扇形的角度（360度除以選項數量）
-                const angle = (360 / 4) * index;
+                const angle = (360 / restaurants.length) * index;
+                
+                // 根據餐廳位置設置顏色
+                let sectionColor;
+                switch (restaurant.location) {
+                  case "宿舍餐廳":
+                    sectionColor = '#92e9a3';
+                    break;
+                  case "綠光庭園":
+                    sectionColor = '#4d99ff';
+                    break;
+                  case "光華商場":
+                    sectionColor = '#fceeb2';
+                    break;
+                  case "其他附近":
+                    sectionColor = '#ff9090';
+                    break;
+                  default:
+                    sectionColor = '#e5e5e5';
+                }
+
                 return (
                   <div
                     key={index}
@@ -281,7 +296,7 @@ export default function FoodFinder() {
                     style={{
                       transform: `rotate(${angle}deg)`,
                       clipPath: 'polygon(50% 50%, 50% 0, 100% 0, 100% 100%, 50% 100%)',
-                      background: section.color
+                      background: sectionColor
                     }}
                   >
                     <div 
@@ -290,7 +305,7 @@ export default function FoodFinder() {
                         transform: `rotate(${45}deg)`,
                         width: '120px',
                         textAlign: 'center',
-                        fontSize: '16px',
+                        fontSize: '14px',
                         fontWeight: 'bold',
                         color: '#333',
                         left: '75%',
@@ -300,7 +315,7 @@ export default function FoodFinder() {
                         textShadow: '0 1px 1px rgba(255,255,255,0.8)'
                       }}
                     >
-                      {section.name}
+                      {filter === 'all' ? restaurant.location : restaurant.name}
                     </div>
                   </div>
                 );
@@ -318,7 +333,7 @@ export default function FoodFinder() {
                   : '0 4px 12px rgba(0,0,0,0.3)'
               }}
             >
-              <span className="text-xl">按一下以旋轉</span>
+              <span className="text-base">按一下以旋轉</span>
             </button>
           </div>
         </div>
