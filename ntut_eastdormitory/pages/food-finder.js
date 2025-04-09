@@ -277,24 +277,26 @@ export default function FoodFinder() {
                 return (
                   <div
                     key={index}
-                    className="absolute w-1/2 h-1/2 flex items-center justify-center origin-bottom-right"
+                    className="absolute w-full h-full origin-center"
                     style={{
-                      transform: `rotate(${angle}deg) skew(${90 - 360/4}deg)`,
-                      transformOrigin: '0% 100%',
-                      background: section.color,
-                      borderLeft: index % 2 === 0 ? '1px solid rgba(255,255,255,0.3)' : 'none'
+                      transform: `rotate(${angle}deg)`,
+                      clipPath: 'polygon(50% 50%, 50% 0, 100% 0, 100% 100%, 50% 100%)',
+                      background: section.color
                     }}
                   >
                     <div 
                       className="absolute"
                       style={{ 
-                        transform: `skew(${-(90 - 360/4)}deg) rotate(${90}deg)`,
+                        transform: `rotate(${45}deg)`,
                         width: '120px',
                         textAlign: 'center',
                         fontSize: '16px',
                         fontWeight: 'bold',
                         color: '#333',
-                        bottom: '60%',
+                        left: '75%',
+                        top: '25%',
+                        marginLeft: '-60px',
+                        marginTop: '-10px',
                         textShadow: '0 1px 1px rgba(255,255,255,0.8)'
                       }}
                     >
