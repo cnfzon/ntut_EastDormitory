@@ -139,7 +139,7 @@ export default function FoodFinder() {
     setTimeout(() => {
       setRotating(false);
       setSelectedRestaurant(selected);
-    }, 8000); // 旋轉動畫持續8秒
+    }, 3000); // 旋轉動畫持續3秒
   };
 
   return (
@@ -170,6 +170,17 @@ export default function FoodFinder() {
       {/* Filter Section */}
       <section className="content-section pt-8 pb-4">
         <div className="max-w-4xl mx-auto">
+          <div className="relative mb-4">
+            <button 
+              onClick={() => setFilter("all")}
+              className="flex flex-col items-center justify-center w-12 h-12 bg-white rounded-full shadow-md mb-2 mx-auto hover:shadow-lg transition-all duration-300"
+            >
+              <div className="w-6 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
+              <div className="w-6 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
+              <div className="w-6 h-0.5 bg-gray-700 rounded-full"></div>
+            </button>
+            <p className="text-center text-sm text-gray-500">點擊查看選項</p>
+          </div>
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             <button 
               onClick={() => setFilter("all")} 
@@ -451,7 +462,7 @@ export default function FoodFinder() {
           transition-property: transform;
         }
         .duration-8000 {
-          transition-duration: 8000ms;
+          transition-duration: 3000ms;
         }
         .ease-out {
           transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
@@ -497,7 +508,7 @@ export default function FoodFinder() {
           transition-property: transform;
         }
         .duration-8000 {
-          transition-duration: 8000ms;
+          transition-duration: 3000ms;
         }
         .ease-out {
           transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈跳效果 */
