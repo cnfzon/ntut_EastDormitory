@@ -257,53 +257,19 @@ export default function FoodFinder() {
               </div>
             </div>
             
-            {/* 轉盤 */}
-            <div
-              ref={wheelRef}
-              className="relative w-full h-full rounded-full border-[16px] border-[#1a1a1a] overflow-hidden shadow-2xl transition-transform duration-8000 ease-out transform bg-white"
-              style={{ 
-                transform: `rotate(${degrees}deg)`,
-                boxShadow: '0 0 30px rgba(0,0,0,0.15), inset 0 0 50px rgba(0,0,0,0.1)'
-              }}
-            >
-              {[
-                { name: "宿舍餐廳", color: '#ff6b6b' },
-                { name: "綠光庭園", color: '#92e9a3' },
-                { name: "光華商場", color: '#fceeb2' },
-                { name: "其他附近", color: '#a29bfe' }
-              ].map((section, index) => {
-                const angle = (360 / 4) * index;
-                return (
-                  <div
-                    key={index}
-                    className="absolute w-full h-full origin-center"
-                    style={{
-                      transform: `rotate(${angle}deg)`,
-                      clipPath: 'polygon(50% 50%, 0% 0%, 100% 0%)',
-                      background: section.color
-                    }}
-                  >
-                    <div 
-                      className="absolute"
-                      style={{ 
-                        transform: `rotate(${45}deg)`,
-                        width: '120px',
-                        textAlign: 'center',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        color: '#333',
-                        left: '50%',
-                        top: '50%',
-                        marginLeft: '-60px',
-                        marginTop: '-10px',
-                        textShadow: '0 1px 1px rgba(255,255,255,0.8)'
-                      }}
-                    >
-                      {section.name}
-                    </div>
-                  </div>
-                );
-              })}
+            {/* 12宮格轉盤 */}
+            <div className="grid grid-cols-4 grid-rows-3 gap-2">
+              {restaurants.slice(0, 12).map((restaurant, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-center w-24 h-24 bg-white rounded-lg shadow-md transition-all duration-300"
+                  style={{ backgroundColor: restaurant.color }}
+                >
+                  <span className="text-sm font-bold text-gray-800">
+                    {restaurant.name}
+                  </span>
+                </div>
+              ))}
             </div>
             
             {/* 中央按鈕 */}
@@ -317,7 +283,7 @@ export default function FoodFinder() {
                   : '0 4px 12px rgba(0,0,0,0.3)'
               }}
             >
-              <span className="text-base">按一下以旋轉</span>
+              <span className="text-base">旋轉</span>
             </button>
           </div>
         </div>
