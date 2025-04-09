@@ -7,6 +7,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
+      <div className="flex justify-center items-center py-4 bg-white">
+        <Image
+          src="/taipei-tech-logo.png"
+          alt="Taipei Tech Logo"
+          width={300}
+          height={150}
+          priority
+          className="object-contain"
+        />
+      </div>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <section className="relative h-[70vh] flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800 text-white overflow-hidden rounded-xl my-8 shadow-xl">

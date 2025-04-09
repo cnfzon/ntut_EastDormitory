@@ -142,6 +142,22 @@ export default function FoodFinder() {
     }, 3000); // 旋轉動畫持續3秒
   };
 
+  // Helper function to get background color
+  function getBackgroundColor(location) {
+    switch (location) {
+      case "宿舍餐廳":
+        return '#a8d5e2'; // 淺藍色
+      case "綠光庭園":
+        return '#b2e2a8'; // 淺綠色
+      case "光華商場":
+        return '#fce8a8'; // 淺黃色
+      case "其他附近":
+        return '#e2a8d5'; // 淺紫色
+      default:
+        return '#e5e5e5'; // 灰色
+    }
+  }
+
   return (
     <Layout title="欸等等要吃什麼">
       {/* Hero Section */}
@@ -250,20 +266,13 @@ export default function FoodFinder() {
           )}
           
           <div className="relative mx-auto flex justify-center items-center" style={{ width: 420, height: 420 }}>
-            {/* 轉盤中心指針 */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-5 z-20">
-              <div className="pointer-flash" ref={el => rotating && el?.classList.add('pointer-flash-active')}>
-                <div className="w-0 h-0 border-l-[18px] border-r-[18px] border-b-[35px] border-l-transparent border-r-transparent border-b-red-600"></div>
-              </div>
-            </div>
-            
             {/* 12宮格轉盤 */}
             <div className="grid grid-cols-4 grid-rows-3 gap-2">
               {restaurants.slice(0, 12).map((restaurant, index) => (
                 <div
                   key={index}
                   className="flex items-center justify-center w-24 h-24 bg-white rounded-lg shadow-md transition-all duration-300"
-                  style={{ backgroundColor: restaurant.color }}
+                  style={{ backgroundColor: getBackgroundColor(restaurant.location) }}
                 >
                   <span className="text-sm font-bold text-gray-800">
                     {restaurant.name}
@@ -271,20 +280,6 @@ export default function FoodFinder() {
                 </div>
               ))}
             </div>
-            
-            {/* 中央按鈕 */}
-            <button
-              onClick={spinWheel}
-              disabled={rotating}
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-28 h-28 rounded-full bg-[#2a2a2a] text-white font-bold shadow-lg transition-all duration-300 flex items-center justify-center`}
-              style={{
-                boxShadow: rotating 
-                  ? '0 0 20px rgba(0,0,0,0.5)' 
-                  : '0 4px 12px rgba(0,0,0,0.3)'
-              }}
-            >
-              <span className="text-base">旋轉</span>
-            </button>
           </div>
         </div>
       </section>
