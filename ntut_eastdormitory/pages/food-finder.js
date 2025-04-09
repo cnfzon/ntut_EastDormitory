@@ -269,6 +269,7 @@ export default function FoodFinder() {
               {restaurants.map((restaurant, index) => {
                 // 計算每個扇形的角度（360度除以選項數量）
                 const angle = (360 / restaurants.length) * index;
+                const nextAngle = (360 / restaurants.length) * (index + 1);
                 
                 // 根據餐廳位置設置顏色
                 let sectionColor;
@@ -289,28 +290,46 @@ export default function FoodFinder() {
                     sectionColor = '#e5e5e5';
                 }
 
+                // 計算扇形路徑
+                const startAngle = (angle * Math.PI) / 180;
+                const endAngle = (nextAngle * Math.PI) / 180;
+                const radius = 210; // 轉盤半徑
+                
+                // 扇形的起點和終點座標
+                const x1 = radius * Math.cos(startAngle) + radius;
+                const y1 = radius * Math.sin(startAngle) + radius;
+                const x2 = radius * Math.cos(endAngle) + radius;
+                const y2 = radius * Math.sin(endAngle) + radius;
+                
+                // 建立扇形路徑 (用於clipPath)
+                const pathData = [
+                  `M ${radius} ${radius}`, // 從中心點開始
+                  `L ${x1} ${y1}`, // 到第一個點
+                  `A ${radius} ${radius} 0 ${(nextAngle - angle > 180) ? 1 : 0} 1 ${x2} ${y2}`, // 弧線到第二個點
+                  'Z' // 關閉路徑
+                ].join(' ');
+
                 return (
                   <div
                     key={index}
                     className="absolute w-full h-full origin-center"
                     style={{
-                      transform: `rotate(${angle}deg)`,
-                      clipPath: 'polygon(50% 50%, 50% 0, 100% 0, 100% 100%, 50% 100%)',
-                      background: sectionColor
+                      background: sectionColor,
+                      clipPath: `path('${pathData}')`
                     }}
                   >
                     <div 
                       className="absolute"
                       style={{ 
-                        transform: `rotate(${45}deg)`,
+                        transform: `rotate(${angle + (360 / restaurants.length / 2)}deg)`,
                         width: '120px',
                         textAlign: 'center',
                         fontSize: '14px',
                         fontWeight: 'bold',
                         color: '#333',
-                        left: '75%',
-                        top: '25%',
-                        marginLeft: '-60px',
+                        left: '50%',
+                        top: '50%',
+                        marginLeft: radius / 2 - 10,
                         marginTop: '-10px',
                         textShadow: '0 1px 1px rgba(255,255,255,0.8)'
                       }}
