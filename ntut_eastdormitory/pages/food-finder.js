@@ -181,53 +181,53 @@ export default function FoodFinder() {
             </button>
             <p className="text-center text-sm text-gray-500">點擊查看選項</p>
           </div>
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
+          <div className="flex flex-wrap justify-center gap-2 mb-6 bg-blue-50 p-5 rounded-xl">
             <button 
               onClick={() => setFilter("all")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
                 filter === 'all' 
                   ? 'bg-orange-500 text-white shadow-md scale-105 ring-2 ring-orange-300' 
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
               }`}
             >
               所有餐廳
             </button>
             <button 
               onClick={() => setFilter("dorm")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
                 filter === 'dorm' 
                   ? 'bg-green-500 text-white shadow-md scale-105 ring-2 ring-green-300' 
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
               }`}
             >
               宿舍餐廳
             </button>
             <button 
               onClick={() => setFilter("greenCourt")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
                 filter === 'greenCourt' 
                   ? 'bg-blue-500 text-white shadow-md scale-105 ring-2 ring-blue-300' 
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
               }`}
             >
               綠光庭園
             </button>
             <button 
               onClick={() => setFilter("kwangHua")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
                 filter === 'kwangHua' 
                   ? 'bg-purple-500 text-white shadow-md scale-105 ring-2 ring-purple-300' 
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
               }`}
             >
               光華商場
             </button>
             <button 
               onClick={() => setFilter("other")} 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform ${
+              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
                 filter === 'other' 
                   ? 'bg-orange-500 text-white shadow-md scale-105 ring-2 ring-orange-300' 
-                  : 'bg-gray-200 hover:bg-gray-300 text-gray-800 hover:scale-105'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
               }`}
             >
               其他附近
