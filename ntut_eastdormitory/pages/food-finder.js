@@ -185,68 +185,63 @@ export default function FoodFinder() {
 
       {/* Filter Section */}
       <section className="content-section pt-8 pb-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative mb-4">
-            <button 
-              onClick={() => setFilter("all")}
-              className="flex flex-col items-center justify-center w-16 h-16 bg-white rounded-full shadow-md mb-2 mx-auto hover:shadow-lg transition-all duration-300"
-            >
-              <div className="w-8 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
-              <div className="w-8 h-0.5 bg-gray-700 rounded-full mb-1.5"></div>
-              <div className="w-8 h-0.5 bg-gray-700 rounded-full"></div>
-            </button>
-            <p className="text-center text-sm text-gray-500">點擊查看選項</p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-2 mb-6 bg-sky-50 p-5 rounded-xl">
-            <button 
-              onClick={() => setFilter("all")} 
-              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
-                filter === 'all' 
-                  ? 'bg-orange-500 text-white shadow-md scale-105 ring-2 ring-orange-300' 
-                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
-              }`}
-            >
-              所有餐廳
-            </button>
-            <button 
-              onClick={() => setFilter("dorm")} 
-              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
-                filter === 'dorm' 
-                  ? 'bg-green-500 text-white shadow-md scale-105 ring-2 ring-green-300' 
-                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
-              }`}
-            >
-              宿舍餐廳
-            </button>
-            <button 
-              onClick={() => setFilter("greenCourt")} 
-              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
-                filter === 'greenCourt' 
-                  ? 'bg-blue-500 text-white shadow-md scale-105 ring-2 ring-blue-300' 
-                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
-              }`}
-            >
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-4 gap-6 mb-8">
+            {/* 第一行 */}
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
               綠光庭園
-            </button>
-            <button 
-              onClick={() => setFilter("kwangHua")} 
-              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
-                filter === 'kwangHua' 
-                  ? 'bg-purple-500 text-white shadow-md scale-105 ring-2 ring-purple-300' 
-                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              宿舍餐廳
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              綠光庭園
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              宿舍餐廳
+            </div>
+            
+            {/* 第二行 */}
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              宿舍餐廳
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              綠光庭園
+            </div>
+            <div className="col-span-2 row-span-2"></div>
+            
+            {/* 第三行 */}
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              綠光庭園
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              宿舍餐廳
+            </div>
+            
+            {/* 第四行 */}
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              宿舍餐廳
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              綠光庭園
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              宿舍餐廳
+            </div>
+            <div className="h-32 bg-white rounded-xl shadow-md flex items-center justify-center hover:shadow-lg transition-all duration-300 cursor-pointer text-lg font-medium">
+              綠光庭園
+            </div>
+          </div>
+          
+          <div className="flex justify-center">
+            <button
+              onClick={spinWheel}
+              disabled={rotating}
+              className={`px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-full text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 ${
+                rotating ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
               }`}
             >
-              光華商場
-            </button>
-            <button 
-              onClick={() => setFilter("other")} 
-              className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
-                filter === 'other' 
-                  ? 'bg-orange-500 text-white shadow-md scale-105 ring-2 ring-orange-300' 
-                  : 'bg-white hover:bg-gray-100 text-gray-800 hover:scale-105 shadow-sm'
-              }`}
-            >
-              其他附近
+              {rotating ? '選擇中...' : '開始選擇'}
             </button>
           </div>
         </div>
