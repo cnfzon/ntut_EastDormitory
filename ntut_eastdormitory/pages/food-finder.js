@@ -181,7 +181,7 @@ export default function FoodFinder() {
             </button>
             <p className="text-center text-sm text-gray-500">點擊查看選項</p>
           </div>
-          <div className="flex flex-wrap justify-center gap-2 mb-6 bg-blue-50 p-5 rounded-xl">
+          <div className="flex flex-wrap justify-center gap-2 mb-6 bg-sky-50 p-5 rounded-xl">
             <button 
               onClick={() => setFilter("all")} 
               className={`px-5 py-3 mb-3 rounded-full text-sm font-medium transition-all duration-300 transform w-full sm:w-auto ${
