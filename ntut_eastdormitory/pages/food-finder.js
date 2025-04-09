@@ -237,7 +237,7 @@ export default function FoodFinder() {
       </section>
 
       {/* Wheel Section */}
-      <section className="content-section py-6">
+      <section className="content-section py-6 flex justify-center items-center min-h-[70vh]">
         <div className="max-w-4xl mx-auto text-center mb-8">
           <p className="text-xl text-gray-700 mb-6">
             不知道該吃什麼？只要按下按鈕，讓美食轉盤幫你做決定！
@@ -379,9 +379,6 @@ export default function FoodFinder() {
             </button>
           </div>
           
-          <p className="text-gray-500 italic mt-4">
-            {rotating ? 'cow我超2' : 'cow我超2'}
-          </p>
         </div>
       </section>
 
