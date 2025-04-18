@@ -72,20 +72,18 @@ export default function Announcement() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const formData = new FormData();
-      formData.append('title', newAnnouncement.title);
-      formData.append('content', newAnnouncement.content);
-      formData.append('author', newAnnouncement.author);
-      if (newAnnouncement.image) {
-        formData.append('image', newAnnouncement.image);
-      }
-
+      
       const response = await fetch('/api/announcements', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: formData
+        body: JSON.stringify({
+          title: newAnnouncement.title,
+          content: newAnnouncement.content,
+          author: newAnnouncement.author
+        })
       });
 
       // 嘗試解析 JSON 回應
