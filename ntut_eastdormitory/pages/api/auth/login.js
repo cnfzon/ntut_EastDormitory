@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { connectToDatabase } from '../../../lib/mongodb';
+import clientPromise from '../../../lib/mongodb';
 
 // 定義 Admin Schema
 const adminSchema = new mongoose.Schema({
@@ -35,6 +35,26 @@ const adminSchema = new mongoose.Schema({
 // 使用已存在的 Admin 模型或創建新的
 const Admin = mongoose.models.Admin || mongoose.model('Admin', adminSchema);
 
+// 連接 Mongoose 到 MongoDB
+const connectMongoose = async () => {
+  // 確認 MongoDB URI 是否存在
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error("請在 .env.local 中設定 MONGODB_URI");
+  }
+  
+  // 如果已經連接，則返回
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+  
+  // 連接到 MongoDB
+  return mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+};
+
 export default async function handler(req, res) {
   // 只允許 POST 請求
   if (req.method !== 'POST') {
@@ -43,7 +63,7 @@ export default async function handler(req, res) {
 
   try {
     // 連接到數據庫
-    await connectToDatabase();
+    await connectMongoose();
 
     const { username, password } = req.body;
 

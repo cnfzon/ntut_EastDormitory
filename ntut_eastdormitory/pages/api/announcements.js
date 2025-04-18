@@ -1,24 +1,14 @@
-import { MongoClient } from 'mongodb';
+import clientPromise from '../../lib/mongodb';
 
 // 處理公告 API 請求
 export default async function handler(req, res) {
-  // 獲取 MongoDB 連線字串
-  const uri = process.env.MONGODB_URI;
-  if (!uri) {
-    return res.status(500).json({ message: '未設置 MongoDB 連線字串' });
-  }
-
-  let client;
+  // 根據請求方法處理不同操作
   try {
-    // 建立 MongoDB 連線
-    client = new MongoClient(uri);
-    await client.connect();
+    // 連接到 MongoDB
+    const client = await clientPromise;
+    const db = client.db("ntut_eastdormitory");
+    const collection = db.collection("announcements");
     
-    // 選擇資料庫和集合
-    const database = client.db('ntut_eastdormitory');
-    const collection = database.collection('announcements');
-    
-    // 根據請求方法處理不同操作
     if (req.method === 'GET') {
       // 從集合中獲取所有公告，按創建時間降序排序
       const announcements = await collection
@@ -64,10 +54,5 @@ export default async function handler(req, res) {
       message: '處理公告請求失敗', 
       error: error.message 
     });
-  } finally {
-    // 確保無論成功或失敗都關閉連線
-    if (client) {
-      await client.close();
-    }
   }
 } 

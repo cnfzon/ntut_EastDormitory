@@ -1,40 +1,20 @@
-import mongoose from 'mongoose';
+import { MongoClient } from "mongodb"
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ntut_eastdormitory';
+const uri = process.env.MONGODB_URI
+const options = {}
 
-if (!MONGODB_URI) {
-  throw new Error('請在環境變量中定義 MONGODB_URI');
+let client
+let clientPromise
+
+if (!process.env.MONGODB_URI) {
+  throw new Error("請在 .env.local 中設定 MONGODB_URI")
 }
 
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+if (!global._mongoClientPromise) {
+  client = new MongoClient(uri, options)
+  global._mongoClientPromise = client.connect()
 }
 
-async function connectToDatabase() {
-  if (cached.conn) {
-    return cached.conn;
-  }
+clientPromise = global._mongoClientPromise
 
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
-  }
-
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-
-  return cached.conn;
-}
-
-export { connectToDatabase }; 
+export default clientPromise 
