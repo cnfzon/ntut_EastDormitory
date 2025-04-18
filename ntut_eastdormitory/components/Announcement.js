@@ -28,10 +28,31 @@ export default function Announcement() {
   const fetchAnnouncements = async () => {
     try {
       const response = await fetch('/api/announcements');
-      const data = await response.json();
+      
+      // 檢查 response 是否正常
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      
+      // 安全地解析 JSON
+      let data;
+      try {
+        data = await response.json();
+        
+        // 驗證 data 是否為陣列
+        if (!Array.isArray(data)) {
+          console.warn('API 回傳的資料不是陣列格式:', data);
+          data = []; // 設定為空陣列作為後備
+        }
+      } catch (jsonError) {
+        console.error('JSON 解析錯誤:', jsonError);
+        data = []; // JSON 解析失敗時使用空陣列
+      }
+      
       setAnnouncements(data);
     } catch (error) {
       console.error('獲取公告失敗:', error);
+      setAnnouncements([]); // 發生錯誤時設定為空陣列
     }
   };
 
@@ -67,13 +88,21 @@ export default function Announcement() {
         body: formData
       });
 
+      // 嘗試解析 JSON 回應
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('解析回應 JSON 時發生錯誤:', jsonError);
+        data = { message: '處理回應時發生錯誤' };
+      }
+
       if (response.ok) {
         setShowForm(false);
         setNewAnnouncement({ title: '', content: '', author: '宿舍管理員', image: null });
         setPreviewImage(null);
         fetchAnnouncements();
       } else {
-        const data = await response.json();
         alert(data.message || '發布公告失敗');
       }
     } catch (error) {
