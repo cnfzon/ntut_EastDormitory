@@ -1,59 +1,6 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import clientPromise from '../../../lib/mongodb';
-
-// 定義 Admin Schema
-const adminSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['superadmin', 'admin'],
-    default: 'admin',
-  },
-  lastLogin: {
-    type: Date,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-// 使用已存在的 Admin 模型或創建新的
-const Admin = mongoose.models.Admin || mongoose.model('Admin', adminSchema);
-
-// 連接 Mongoose 到 MongoDB
-const connectMongoose = async () => {
-  // 確認 MongoDB URI 是否存在
-  const uri = process.env.MONGODB_URI;
-  if (!uri) {
-    throw new Error("請在 .env.local 中設定 MONGODB_URI");
-  }
-  
-  // 如果已經連接，則返回
-  if (mongoose.connection.readyState >= 1) {
-    return;
-  }
-  
-  // 連接到 MongoDB
-  return mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-};
 
 export default async function handler(req, res) {
   // 只允許 POST 請求
@@ -62,42 +9,51 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 連接到數據庫
-    await connectMongoose();
+    // 連接到 MongoDB
+    console.log('嘗試連接到 MongoDB...');
+    const client = await clientPromise;
+    const db = client.db('ntut_eastdormitory');
+    const usersCollection = db.collection('users');
+    console.log('MongoDB 連接成功');
 
     const { username, password } = req.body;
+    console.log(`正在嘗試登入: ${username}`);
 
     // 檢查是否提供了用戶名和密碼
     if (!username || !password) {
+      console.error('登入失敗: 缺少用戶名或密碼');
       return res.status(400).json({ message: '請提供用戶名和密碼' });
     }
 
     // 查找用戶
-    const admin = await Admin.findOne({ username });
+    const user = await usersCollection.findOne({ username });
 
     // 如果用戶不存在
-    if (!admin) {
+    if (!user) {
+      console.error(`登入失敗: 用戶 ${username} 不存在`);
       return res.status(401).json({ message: '用戶名或密碼錯誤' });
     }
 
-    // 檢查密碼
-    const isMatch = await bcrypt.compare(password, admin.password);
-
-    if (!isMatch) {
+    // 檢查密碼 - 簡單比較密碼文字
+    if (user.password !== password) {
+      console.error(`登入失敗: 用戶 ${username} 密碼錯誤`);
       return res.status(401).json({ message: '用戶名或密碼錯誤' });
     }
 
     // 更新最後登錄時間
-    admin.lastLogin = new Date();
-    await admin.save();
+    await usersCollection.updateOne(
+      { _id: user._id },
+      { $set: { lastLogin: new Date() } }
+    );
+    console.log(`用戶 ${username} 登入成功`);
 
     // 創建並簽署 JWT
     const token = jwt.sign(
       { 
-        id: admin._id,
-        username: admin.username,
-        role: admin.role,
-        name: admin.name
+        id: user._id,
+        username: user.username,
+        role: user.role || 'user',
+        name: user.name || user.username
       },
       process.env.JWT_SECRET || 'ntut_eastdormitory_secret_key',
       { expiresIn: '1d' }
@@ -108,14 +64,14 @@ export default async function handler(req, res) {
       message: '登錄成功',
       token,
       user: {
-        id: admin._id,
-        username: admin.username,
-        role: admin.role,
-        name: admin.name
+        id: user._id,
+        username: user.username,
+        role: user.role || 'user',
+        name: user.name || user.username
       }
     });
   } catch (error) {
-    console.error('登錄錯誤:', error);
+    console.error('登錄過程中發生錯誤:', error);
     return res.status(500).json({ message: '服務器錯誤，請稍後再試' });
   }
 } 
