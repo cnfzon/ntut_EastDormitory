@@ -9,7 +9,7 @@ export default function Home() {
       <Navbar />
       <div className="flex justify-center items-center py-4 bg-white">
         <Image
-          src="/taipei-tech-logo.png"
+          src="/images/taipei-tech-logo.png"
           alt="Taipei Tech Logo"
           width={300}
           height={150}
