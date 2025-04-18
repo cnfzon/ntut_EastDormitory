@@ -1,7 +1,4 @@
-import { connectToDatabase } from '../../lib/mongodb';
-import formidable from 'formidable';
-import fs from 'fs';
-import path from 'path';
+import { MongoClient } from 'mongodb';
 
 export const config = {
   api: {
@@ -9,54 +6,47 @@ export const config = {
   },
 };
 
+// 處理公告 API 請求
 export default async function handler(req, res) {
+  // 只允許 GET 請求獲取公告列表
+  if (req.method !== 'GET') {
+    return res.status(405).json({ message: `不支援的請求方法: ${req.method}` });
+  }
+
+  // 獲取 MongoDB 連線字串
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    return res.status(500).json({ message: '未設置 MongoDB 連線字串' });
+  }
+
+  let client;
   try {
-    // 連接到數據庫
-    const { db } = await connectToDatabase();
+    // 建立 MongoDB 連線
+    client = new MongoClient(uri);
+    await client.connect();
     
-    // 根據請求方法處理不同操作
-    if (req.method === 'GET') {
-      // 獲取公告列表
-      const announcements = await db
-        .collection('announcements')
-        .find({})
-        .sort({ createdAt: -1 }) // 按創建時間降序排序
-        .toArray();
-      
-      return res.status(200).json(announcements);
-    } else if (req.method === 'POST') {
-      // 檢查身份驗證
-      // 這裡應該有檢查用戶是否已登錄和授權的代碼
-      
-      const { title, content, tags } = req.body;
-      
-      // 基本驗證
-      if (!title || !content) {
-        return res.status(400).json({ message: '標題和內容不能為空' });
-      }
-      
-      // 創建新公告
-      const newAnnouncement = {
-        title,
-        content,
-        tags: tags || [],
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      
-      const result = await db.collection('announcements').insertOne(newAnnouncement);
-      
-      return res.status(201).json({
-        message: '公告創建成功',
-        announcementId: result.insertedId
-      });
-    } else {
-      // 不支持的方法
-      res.setHeader('Allow', ['GET', 'POST']);
-      return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
-    }
+    // 選擇資料庫和集合
+    const database = client.db('ntut_eastdormitory');
+    const collection = database.collection('announcements');
+    
+    // 從集合中獲取所有公告，按創建時間降序排序
+    const announcements = await collection
+      .find({})
+      .sort({ createdAt: -1 })
+      .toArray();
+    
+    // 回傳公告資料
+    return res.status(200).json(announcements);
   } catch (error) {
-    console.error('處理公告請求時出錯:', error);
-    return res.status(500).json({ message: '服務器錯誤，請稍後再試' });
+    console.error('獲取公告資料時發生錯誤:', error);
+    return res.status(500).json({ 
+      message: '獲取公告資料失敗', 
+      error: error.message 
+    });
+  } finally {
+    // 確保無論成功或失敗都關閉連線
+    if (client) {
+      await client.close();
+    }
   }
 } 
