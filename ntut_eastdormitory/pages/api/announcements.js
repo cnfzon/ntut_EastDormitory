@@ -10,58 +10,53 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  const { db } = await connectToDatabase();
-
-  if (req.method === 'GET') {
-    try {
+  try {
+    // 連接到數據庫
+    const { db } = await connectToDatabase();
+    
+    // 根據請求方法處理不同操作
+    if (req.method === 'GET') {
+      // 獲取公告列表
       const announcements = await db
         .collection('announcements')
         .find({})
-        .sort({ date: -1 })
+        .sort({ createdAt: -1 }) // 按創建時間降序排序
         .toArray();
-      res.status(200).json(announcements);
-    } catch (error) {
-      res.status(500).json({ message: '獲取公告失敗' });
-    }
-  } else if (req.method === 'POST') {
-    try {
-      const form = new formidable.IncomingForm();
-      form.uploadDir = path.join(process.cwd(), 'public', 'uploads');
-      form.keepExtensions = true;
-
-      form.parse(req, async (err, fields, files) => {
-        if (err) {
-          return res.status(500).json({ message: '解析表單失敗' });
-        }
-
-        const { title, content, author } = fields;
-        let imageUrl = null;
-
-        if (files.image) {
-          const file = files.image;
-          const fileName = `${Date.now()}-${file.originalFilename}`;
-          const newPath = path.join(form.uploadDir, fileName);
-          
-          fs.renameSync(file.filepath, newPath);
-          imageUrl = `/uploads/${fileName}`;
-        }
-
-        const announcement = {
-          title,
-          content,
-          author,
-          imageUrl,
-          date: new Date(),
-        };
-
-        await db.collection('announcements').insertOne(announcement);
-        res.status(201).json(announcement);
+      
+      return res.status(200).json(announcements);
+    } else if (req.method === 'POST') {
+      // 檢查身份驗證
+      // 這裡應該有檢查用戶是否已登錄和授權的代碼
+      
+      const { title, content, tags } = req.body;
+      
+      // 基本驗證
+      if (!title || !content) {
+        return res.status(400).json({ message: '標題和內容不能為空' });
+      }
+      
+      // 創建新公告
+      const newAnnouncement = {
+        title,
+        content,
+        tags: tags || [],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      
+      const result = await db.collection('announcements').insertOne(newAnnouncement);
+      
+      return res.status(201).json({
+        message: '公告創建成功',
+        announcementId: result.insertedId
       });
-    } catch (error) {
-      res.status(500).json({ message: '發布公告失敗' });
+    } else {
+      // 不支持的方法
+      res.setHeader('Allow', ['GET', 'POST']);
+      return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
     }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  } catch (error) {
+    console.error('處理公告請求時出錯:', error);
+    return res.status(500).json({ message: '服務器錯誤，請稍後再試' });
   }
 } 

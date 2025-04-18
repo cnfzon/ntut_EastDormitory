@@ -1,4 +1,15 @@
 // 創建一個簡化版本的auth.js文件，避免服務器端渲染問題
+import jwt from 'jsonwebtoken';
+
+const verifyToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'ntut_eastdormitory_secret_key');
+    return decoded;
+  } catch (error) {
+    console.error('令牌驗證失敗:', error);
+    return null;
+  }
+};
 
 const AuthProvider = ({ children }) => {
   return children;
@@ -30,11 +41,12 @@ const isAdmin = (req) => {
   }
 };
 
-export { AuthProvider, useAuth, withAuth, isAdmin };
+export { AuthProvider, useAuth, withAuth, isAdmin, verifyToken };
 
 export default {
   AuthProvider,
   useAuth,
   withAuth,
   isAdmin,
+  verifyToken
 }; 

@@ -1,4 +1,5 @@
 import { connectToDatabase } from '../../lib/mongodb';
+import { ObjectId } from 'mongodb';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
@@ -7,7 +8,7 @@ import { verifyToken } from '../../lib/auth';
 export const config = {
   api: {
     bodyParser: false,
-  },
+  }
 };
 
 export default async function handler(req, res) {
